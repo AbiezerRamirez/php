@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+    <style>
+            tr, th, td {
+            text-align: center;
+            border: #000 solid 1px;
+        }
+        table {
+            border: #777 outset 4px;
+        }
+        label[for="rojos"] {
+            color: #f00;
+        }
+    </style>
+</head>
+<body>
+    <form action="calculadora.php" method="GET">
+        <table>
+            <tr>
+                <th colspan="6">CALCULADORA</th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label for="op1">Operando1: </label>
+                    <input type="number" id="op1" name="op1" required>
+                </td>
+                <td colspan="3">
+                    <label for="op2">Operando2: </label>
+                    <input type="number" id="op2" name="op2" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="opcion" id="suma" value="sum">
+                    <label for="suma">Suma</label>
+                </td>
+                <td>
+                    <input type="radio" name="opcion" id="resta" value="rest">
+                    <label for="resta">Resta</label>
+                </td>
+                <td>
+                    <input type="radio" name="opcion" id="division" value="div">
+                    <label for="division">Division</label>
+                </td>
+                <td>
+                    <input type="radio" name="opcion" id="producto" value="mult">
+                    <label for="producto">Producto</label>
+                </td>
+                <td>
+                    <input type="radio" name="opcion" id="concatenacion" value="concat">
+                    <label for="concatenacion">Concatenacion</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <input type="checkbox" name="rojos" id="rojos" value="si">
+                    <label for="rojos">Mostrar valores negativos en rojo</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <input type="submit" value="calcular">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
