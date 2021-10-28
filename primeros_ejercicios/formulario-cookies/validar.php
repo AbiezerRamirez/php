@@ -1,10 +1,7 @@
 <?php
-setcookie('user', $_POST["user"], time()+15);
-setcookie('password', $_POST["pass"], time()+15);
-
-
-if ($_COOKIE['password'] == "z80") {
-    echo "Bienvenido " . $_COOKIE['user'];
+if ($_POST['pass'] == $_COOKIE['password']) {
+    echo "Bienvenido " . $_POST['user'];
 } else {
-    header('location: formulario.html');
+    header('location: inicio.php?error=1');
+    exit();
 }

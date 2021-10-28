@@ -16,6 +16,11 @@
         <input type="password" name="pass" id="pass" required><br>
         <input type="submit" value="Iniciar Sesión">
     </form>
+    <?php
+        if (isset($_GET['error'])) {
+            echo '<span style="color: red">Error contraseña no valida</span>';
+        }
+    ?>
 </body>
 
 </html>
