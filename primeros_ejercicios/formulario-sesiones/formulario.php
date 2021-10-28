@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -17,9 +18,9 @@
         <input type="submit" value="Iniciar Sesión">
     </form>
     <?php
-        if (isset($_COOKIE['error'])) {
+        if (isset($_SESSION['error'])) {
             echo '<span style="color: red">Error contraseña no valida</span>';
-            setcookie('error','',time()-1);
+            $_SESSION = [];
         }
     ?>
 </body>
