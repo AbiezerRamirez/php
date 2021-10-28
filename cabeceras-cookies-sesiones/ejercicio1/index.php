@@ -26,5 +26,11 @@
         <input type="password" name="pass" id="pass" ><br>
         <input type="submit" value="Iniciar Sesion">
     </form>
+    <?php 
+    if (isset($_COOKIE['error'])) {
+        echo '<span style="color: red">Error usuario o contraseña no valida</span>';
+        setcookie('error', 1, time()-1);
+    } 
+    ?>
 </body>
 </html>
