@@ -17,34 +17,44 @@ class Usuario
     // destructor
     public function __destruct()
     {
-        echo '<p>Eliminado ' . $this->apellido .'</p>';
+        echo '<p>Eliminado ' . $this->apellido . '</p>';
     }
 
     public function __toString()
     {
-        return "Usuario: $this->nombre $this->apellido - " . $this->formatearFecha();
+        return "Usuario: $this->nombre $this->apellido - {$this->formatearFecha()}";
     }
-
-    public function definirIdioma($idioma) {
+    
+    public function definirIdioma($idioma)
+    {
         $this->idioma = $idioma;
     }
-
-    public function formatearFecha() {
+    
+    public function formatearFecha()
+    {
         setlocale(LC_TIME, $this->idioma);
         return strftime('%c', $this->fcreacion);
     }
 }
 
-class usuarioTipo extends Usuario {
+class usuarioTipo extends Usuario
+{
     private $tipo;
-
+    
     function __construct($nombre, $tipo)
     {
         parent::__construct($nombre, 'APE');
         $this->tipo = $tipo;
     }
-
-    function getTipo() {
+    
+    function getTipo()
+    {
         return $this->tipo;
+    }
+    
+    function __toString()
+    {
+        return parent::__toString() . " - $this->tipo";
+        // return "Usuario: $this->nombre $this->apellido - " . $this->formatearFecha() . " - $this->tipo";
     }
 }
