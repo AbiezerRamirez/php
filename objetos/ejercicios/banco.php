@@ -1,15 +1,15 @@
 <?php
 class banco
 {
-    public $direccion;
-    public $capital;
-    public $nombre;
+    private $direccion;
+    private $capital;
+    private $nombre;
 
     public function __construct()
     {
         $params = func_get_args();
-        $num_params = func_num_args();
-        $constructor = '__construct' . $num_params;
+        $numParams = func_num_args();
+        $constructor = '__construct' . $numParams;
     
         if (method_exists($this, $constructor)) {
             call_user_func_array(array($this, $constructor), $params);

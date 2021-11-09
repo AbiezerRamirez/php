@@ -2,11 +2,11 @@
 include('banco.php');
 class CuentaCorriente
 {
-    public $limite;
-    public $nombre;
-    public $saldo;
-    public $banco;
-    public $dni;
+    private $limite;
+    private $nombre;
+    private $saldo;
+    private $banco;
+    private $dni;
 
     public function __construct()
     {
@@ -45,7 +45,7 @@ class CuentaCorriente
 
     public function setBanco($banco)
     {
-        $this->banco = $banco;
+        $this->banco = (object) $banco;
     }
 
     public function getBanco()
