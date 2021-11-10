@@ -4,18 +4,18 @@ class Vehiculo
     private $matricula;
     private $modelo;
 
-    public function __construct($matricula, $modelo)
+    protected function __construct($matricula, $modelo)
     {
         $this->matricula = $matricula;
         $this->modelo = $modelo;
     }
 
-    function getMatricula()
+    protected function getMatricula()
     {
         return $this->matricula;
     }
 
-    function getModelo()
+    protected function getModelo()
     {
         return $this->modelo;
     }
