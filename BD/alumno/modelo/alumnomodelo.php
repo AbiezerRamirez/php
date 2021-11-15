@@ -7,7 +7,7 @@
 		// Constructor
 		public function __CONSTRUCT() {
 			try {
-				$this->pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+				$this->pdo = new PDO('mysql:host=localhost;dbname=alumnos', 'root', '');
 				$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);		        
 			} catch(Exception $e) {
 				die($e->getMessage()); // como exit
@@ -28,10 +28,10 @@
 					$alumno = new Alumno();
 
 					$alumno->__SET('id', $r->id);
-					$alumno->__SET('Nombre', $r->Nombre);
-					$alumno->__SET('Apellido', $r->Apellido);
-					$alumno->__SET('Sexo', $r->Sexo);
-					$alumno->__SET('FechaNacimiento', $r->FechaNacimiento);
+					$alumno->__SET('Nombre', $r->nombre);
+					$alumno->__SET('Apellido', $r->apellido);
+					$alumno->__SET('Sexo', $r->sexo);
+					$alumno->__SET('FechaNacimiento', $r->fechaNacimiento);
 
 					$result[] = $alumno;
 				}
@@ -55,10 +55,10 @@
 				$alumno = new Alumno();
 
 				$alumno->__SET('id', $r->id);
-				$alumno->__SET('Nombre', $r->Nombre);
-				$alumno->__SET('Apellido', $r->Apellido);
-				$alumno->__SET('Sexo', $r->Sexo);
-				$alumno->__SET('FechaNacimiento', $r->FechaNacimiento);
+				$alumno->__SET('Nombre', $r->nombre);
+				$alumno->__SET('Apellido', $r->apellido);
+				$alumno->__SET('Sexo', $r->sexo);
+				$alumno->__SET('FechaNacimiento', $r->fechaNacimiento);
 
 				return $alumno;
 			} catch (Exception $e) {
@@ -84,10 +84,10 @@
 		public function Actualizar(Alumno $data) {
 			try {
 				$sql = "UPDATE alumnos SET 
-							Nombre          = ?, 
-							Apellido        = ?,
-							Sexo            = ?, 
-							FechaNacimiento = ?
+							nombre          = ?, 
+							apellido        = ?,
+							sexo            = ?, 
+							fechaNacimiento = ?
 						WHERE id = ?";
 
 				$this->pdo->prepare($sql)

@@ -1,7 +1,21 @@
 <?php
-$dns = 'mysql:dbname=test2;host=127.0.0.1';
-$usuario = 'root';
-$password = '';
+$test = 1;
+
+switch($test) {
+    case 1:
+        $dns = 'mysql:dbname=test2;host=127.0.0.1';
+        $usuario = 'root';
+        $password = '';
+        break;
+    case 2:
+        $dns = 'oci:dbname=prueba';
+        $usuario = 'demeter';
+        $password = 'demeter';
+        break;
+    // case 3:
+        // $dns = 'sqlite';
+}
+
 
 $nombre = 'platano';
 $precio = 12.33;

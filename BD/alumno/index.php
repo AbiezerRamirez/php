@@ -1,7 +1,7 @@
 <?php
 
     spl_autoload_register(function ($nombre_clase) {
-    include $nombre_clase . '.php';
+        include 'modelo/' . $nombre_clase . '.php';
     });
 
     // Creamos los dos objetos que necesito para trabajar
@@ -51,9 +51,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Mi CSS personal -->
-    <link href="miestilo.css" rel="stylesheet">
+    <link href="vista/miestilo.css" rel="stylesheet">
     <!-- Para lo que no he modificado yo -->
-    <link href="plantilla.bootstrap.css" rel="stylesheet">
+    <link href="vista/plantilla.bootstrap.css" rel="stylesheet">
     <title>Gestión de Alumnos</title>
 </head>
 <body class="text-center">
