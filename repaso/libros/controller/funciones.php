@@ -16,7 +16,7 @@ function accion($libros)
             $rutaImg = subirImagen();
             agregarLibro($libros, $_POST['isbn'], $_POST['titulo'], $_POST['autor'], $_POST['fp'], $_POST['paginas'], $rutaImg);
             $ls = serialize($libros);
-            
+            // $ls = base64_encode($ls);
             header('location: index.php?lib=' . urlencode($ls));
             exit;
         }

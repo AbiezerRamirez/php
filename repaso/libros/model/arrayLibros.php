@@ -3,6 +3,8 @@
 if (!isset($_REQUEST['lib'])) {
     $libros = array();
 } else {
+    // $lus = base64_decode($_REQUEST['lib']);
+    //                      $lus
     $libros = unserialize($_REQUEST['lib']);
 }
 
