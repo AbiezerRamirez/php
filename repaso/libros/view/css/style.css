@@ -1,0 +1,22 @@
+form {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+form > div {
+    width: 100%;
+}
+
+fieldset {
+    width: min-content;
+}
+
+input {
+    margin: 1em 0;
+}
+
+footer {
+    text-align: center;
+}
