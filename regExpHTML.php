@@ -1,5 +1,13 @@
 <?php
 
+// FORMULARIO OCULTO
+
+// <form action="somepage.php" method="post">
+//     <input type="hidden" name="input_1" value="value 1" />
+//     <input type="hidden" name="input_2" value="value 2" />
+// </form>
+
+
 // CARACTERES
 // .	
 // Tiene uno de los siguientes significados:
