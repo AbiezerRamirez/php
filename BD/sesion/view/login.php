@@ -13,6 +13,7 @@
         <label for="pass">Contraseña:</label>
         <input type="password" name="pass" id="pass"><br>
         <input type="submit" value="Login">
+        <button formaction="?r=1">Registrarse</button>
     </form>
 </body>
 </html>
