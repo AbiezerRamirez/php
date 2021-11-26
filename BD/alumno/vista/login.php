@@ -18,7 +18,7 @@
         }
         
         h2 {
-            margin-top: 5em;
+            margin-top: 4em;
         }
 
         form {
@@ -45,6 +45,7 @@
     <h2>Inicia sesion o registrate</h2>
     <span>Me dio flojera hacer otro formulario asi que se registra con este mismo</span>
     <span>Inserta los datos y presiona registrar para registrarte o login para iniciar sesion</span>
+    <span>Tiene que haber una tabla usuarios (user, password) en la BD junto a la tabla alumnos del ejercicio original</span>
     <form action="?l=1" method="POST">
         <label for="user">Usuario:</label>
         <input type="text" name="user" id="user"><br>
