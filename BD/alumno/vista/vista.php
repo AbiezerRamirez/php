@@ -12,8 +12,10 @@
 </head>
 <body class="text-center">
 
+    
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header>
+            <h2 style="margin-bottom: 1em;">Bienvenido <?php echo$_SESSION['user']; ?></h2>
             <div>
                 <h3 class="float-md-start mb-0">Listado de alumnos. Grupo de DAW2</h3>
             </div>
@@ -86,6 +88,10 @@
 
         </div>
         </main>
+
+        <div>
+            <a href="controlador/logout.php">Cerrar Sesion</a>
+        </div>
         
         <hr>
 

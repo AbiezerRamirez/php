@@ -1,3 +1,3 @@
 <?php
-    require('controlador/controlador.php');
+    require('controlador/controladorSesion.php');
 ?>
