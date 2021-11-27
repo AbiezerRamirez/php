@@ -12,9 +12,4 @@ if (!isset($_REQUEST['c'])) {
 } else {
     accion($libros);
 }
-
-// foreach ($libros as $valores) {
-//     echo $valores . '<br>';
-// }
-
-// var_dump($libros);
+mostrarLibros($libros);

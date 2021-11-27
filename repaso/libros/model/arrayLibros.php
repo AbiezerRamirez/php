@@ -15,11 +15,20 @@ function agregarLibro(&$libros, $isbn, $nombre, $titulo, $fecha, $paginas, $imag
 
 function mostrarLibros($libros)
 {
-    echo '<table>';
+    echo '<table border="1" style="text-align: center">';
     foreach($libros as $libro) {
         echo '<tr>';
-        foreach($libro as $caract) {
-            echo "<td>$caract</td>";
+        foreach($libros[0] as $key => $value) {
+            echo "<th>$key</th>";
+        }
+        echo '</tr>';
+        echo '<tr>';
+        foreach($libro as $key => $caract) {
+            if ($key != 'img') {
+                echo "<td>$caract</td> ";
+            } else {
+                echo '<td><img src="'. $caract . '" width="100px" height="100px"></td>';
+            }
         }
         echo '</tr>';
     }
