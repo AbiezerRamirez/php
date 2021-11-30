@@ -37,9 +37,9 @@
  <?php
   if (isset($_REQUEST['error'])) {
     if ($_REQUEST['error'] == 1) {
-      echo '<span style="color: red">Error, Campo vacio al enviar el formulario</span>';
+      echo '<span style="color: red">Error, Campo vacio al enviar el formulario</span><br>';
     } else if ($_REQUEST['error'] == 2) {
-      echo '<span style="color: red">Error, Dato no numerico</span>';
+      echo '<span style="color: red">Error, Dato no numerico</span><br>';
     }
     unset($_REQUEST['error']);
   }

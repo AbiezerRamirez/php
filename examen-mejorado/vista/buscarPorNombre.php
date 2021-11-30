@@ -1,5 +1,5 @@
 
-      <form name="formBusqueda" action="controlador/validarBusqueda.php" method="POST">
+      <form name="formBusqueda" action="controlador/controller.php?action=searchName" method="POST">
 
           <table>
               <tr>
@@ -35,11 +35,18 @@
                 unset($_REQUEST['error']);
             }
 
-            if (isset($resul)) {
-                foreach($resul as $alimento) {
+            if (isset($_REQUEST['al'])) {
+                $gbd = new GBD('alimentos');
+                foreach ($gbd->executeQueryArray("select * from alimentos where nombre = '" . $_REQUEST['al'] . "'") as $alimento) {
                     echo '<tr><td>' . $alimento['nombre'] . '</td><td>' . $alimento['energia'] . '</td><td>' . $alimento['grasatotal'] . '</td></tr>';
                 }
+                $gbd->disconect();
             }
+            // if (isset($resul)) {
+                // foreach($resul as $alimento) {
+                    // echo '<tr><td>' . $alimento['nombre'] . '</td><td>' . $alimento['energia'] . '</td><td>' . $alimento['grasatotal'] . '</td></tr>';
+                // }
+            // }
             ?>
 
      </table>

@@ -8,7 +8,6 @@ class GBD
         try {
             $this->conexion = new PDO("mysql:dbname=$name;host=127.0.0.1", 'root', '');
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         } catch (Exception $e) {
             die($e->getMessage());
         }
@@ -54,66 +53,16 @@ class GBD
                 "insert into $table (:k1, :k2, :k3, :k4, :k5, :k6) values (:v1, :v2, :v3, :v4, :v5, :v6)",
                 "insert into $table (:k1, :k2, :k3, :k4, :k5, :k6, :k7) values (:v1, :v2, :v3, :v4, :v5, :v6, :v7)"
             );
-
-            $query = $sql[sizeof($array)-1];
-
-
             $i = 1;
-            $stm = $this->conexion->prepare($query);
-            echo $query . '<br>';
+            $query = $sql[sizeof($array)-1];
             foreach ($array as $key => $value) {
-                $k = ':k' . $i;
-                $v = ':v' . $i;
-                $stm->bindParam($k, $key);
-                $stm->bindParam($v, $value);
-                echo ':k' . $i . '<br>';
-                echo $key  . '<br>';
-                echo ':v' . $i++  . '<br>';
-                echo $value  . '<br>';
+                $query = str_replace(':k'.$i, $key, $query);
+                if (is_numeric($value)) 
+                    $query = str_replace(':v'.$i++, $value, $query);
+                else 
+                    $query = str_replace(':v'.$i++, "'".$value."'", $query);
             }
-            // $stm->execute();
-            // foreach ($array as $key => $value) {
-            //     $query = str_ireplace(':k'.$i++, $key, $query);
-            // } 
-            // $stm = $this->conexion->prepare($query);
-            
-            // $i = 0;
-            // while(current($array)) {
-            //     $v = current($array);
-            //     $k = key($array);
-            //     $stm->bindParam(':k'.$i, $k);
-            //     $stm->bindParam(':v'.$i, $v);
-            //     $i++;
-            //     next($array);
-            // }
-
-            // for ($i = 1; $i < sizeof($array)+1; $i++) {
-            //     $v = current($array);
-            //     $k = key($array);
-            //     $stm->bindParam(':k'.$i, $k);
-            //     $stm->bindParam(':v'.$i, $v);
-            //     next($array);
-            // }
-
-            // while (current($array)) {
-            //     $k = ':k' . $i++;
-            //     $v = ':v' . $i++;
-            //     // str_ireplace($k, key($array), $query);
-            //     $stm->bindParam($k, key($array));
-            //     $stm->
-            //     next($array);
-            // }
-            
-            // while (current($array)) {
-            //     // echo $i++ . '<br>';
-            //     echo ':k' .$i .'<br>';
-            //     echo key($array) . '<br>';
-            //     echo ':v' .$i++ .'<br>';
-            //     echo current($array) . '<br>';
-            //     next($array);
-            // }
-            
-            // $stm->execute($array);
+            $this->executeQuery($query);            
         } catch (Exception $e) {
             die($e->getMessage());
         }
@@ -130,7 +79,7 @@ class GBD
         }
     }
     
-    // Compruba si existe una fila dada en la base de datos
+    // Compruba si existe un valor dado en la base de datos
     
     public function exists($table, $column, $value)
     {
@@ -142,6 +91,10 @@ class GBD
             die($e->getMessage());
         }
     }
+
+    // public function like($table, $column, $value) {
+
+    // }
 
     public function disconect()
     {
