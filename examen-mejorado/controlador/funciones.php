@@ -1,5 +1,4 @@
 <?php
-
 function trimArray($array)
 {
     foreach ($array as $valor) {

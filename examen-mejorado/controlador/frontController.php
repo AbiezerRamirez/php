@@ -18,7 +18,7 @@ function mostrarVista() {
     
     $layout = cargarVista('diseño');
     if(!isset($_REQUEST['controller'])) $content = cargarVista('inicio');
-    else if (key_exists($_REQUEST['controller'], $vistas)) $content = cargarVista($vistas[$_REQUEST['controller']]); else $content = '<h2>ERROR 404: NOT FOUND<h2>';
+    else if (key_exists($_REQUEST['controller'], $vistas)) $content = cargarVista($vistas[$_REQUEST['controller']]); else $content = '<h2 style="text-align: center">ERROR 404: NOT FOUND<h2>';
     return str_replace('{{content}}', $content, $layout);
 }
 

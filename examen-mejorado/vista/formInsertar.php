@@ -1,5 +1,5 @@
  <br/>
- <form name="formInsertar" action="controlador/validarAlimento.php" method="POST">
+ <form name="formInsertar" action="controlador/controller.php?action=add" method="POST">
      <table>
          <tr>
              <th>Nombre</th>

@@ -40,7 +40,7 @@ class GBD
         }
     }
 
-    // Inserta un array de clave=>valor en funcion del numero de paramentro (1-5)
+    // Inserta un array de pares clave=>valor en la base de datos (1-7)
 
     public function insertKeyValuesArray($table, $array)
     {
@@ -50,13 +50,28 @@ class GBD
                 "insert into $table (:k1, :k2) values (:v1, :v2)",
                 "insert into $table (:k1, :k2, :k3) values (:v1, :v2, :v3)",
                 "insert into $table (:k1, :k2, :k3, :k4) values (:v1, :v2, :v3, :v4)",
-                "insert into $table (:k1, :k2, :k3, :k4, :k5) values (:v1, :v2, :v3, :v4, :v5)"
+                "insert into $table (:k1, :k2, :k3, :k4, :k5) values (:v1, :v2, :v3, :v4, :v5)",
+                "insert into $table (:k1, :k2, :k3, :k4, :k5, :k6) values (:v1, :v2, :v3, :v4, :v5, :v6)",
+                "insert into $table (:k1, :k2, :k3, :k4, :k5, :k6, :k7) values (:v1, :v2, :v3, :v4, :v5, :v6, :v7)"
             );
 
             $query = $sql[sizeof($array)-1];
 
 
             $i = 1;
+            $stm = $this->conexion->prepare($query);
+            echo $query . '<br>';
+            foreach ($array as $key => $value) {
+                $k = ':k' . $i;
+                $v = ':v' . $i;
+                $stm->bindParam($k, $key);
+                $stm->bindParam($v, $value);
+                echo ':k' . $i . '<br>';
+                echo $key  . '<br>';
+                echo ':v' . $i++  . '<br>';
+                echo $value  . '<br>';
+            }
+            // $stm->execute();
             // foreach ($array as $key => $value) {
             //     $query = str_ireplace(':k'.$i++, $key, $query);
             // } 
@@ -88,14 +103,7 @@ class GBD
             //     $stm->
             //     next($array);
             // }
-            echo $query . '<br>';
-            foreach ($array as $key => $value) {
-                echo ':k' . $i . '<br>';
-                echo $key  . '<br>';
-                echo ':v' . $i++  . '<br>';
-                echo $value  . '<br>';
-
-            }
+            
             // while (current($array)) {
             //     // echo $i++ . '<br>';
             //     echo ':k' .$i .'<br>';
