@@ -70,10 +70,10 @@ class GBD
 
     // Elimina un elemento de la tabla indicada
     
-    public function delete($table, $row, $id)
+    public function delete($table, $column, $id)
     {
         try {
-            $this->executeQuery("delete from $table where $row = $id");
+            $this->executeQuery("delete from $table where $column = $id");
         } catch (Exception $e) {
             die($e->getMessage());
         }
@@ -84,17 +84,13 @@ class GBD
     public function exists($table, $column, $value)
     {
         try {
-            $element = $this->executeQueryArray("select $column from $table where $column = '$value'");
+            $element = $this->executeQueryArray("select $column from $table where $column like '$value'");
             if (empty($element)) return false;
             return true;
         } catch (Exception $e) {
             die($e->getMessage());
         }
     }
-
-    // public function like($table, $column, $value) {
-
-    // }
 
     public function disconect()
     {

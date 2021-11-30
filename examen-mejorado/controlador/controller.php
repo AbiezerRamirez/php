@@ -10,6 +10,8 @@ if(isset($_REQUEST['action'])) {
         addAlimento($gbd, $path);
     } else if ($_REQUEST['action'] == 'searchName') {
         searchName($gbd, $path);
+    } else if ($_REQUEST['action'] == 'searchId') {
+        searchId($gbd, $path);
     }
 } 
 
@@ -42,34 +44,22 @@ function searchName($gbd, &$path) {
     $nombre = $_POST['nombre'];
 
     if (!trimString($nombre)) {
-        if (str_contains($nombre, '%')) {
-
-        } else {
-            if ($gbd->exists('alimentos', 'nombre', $nombre)) {
-                $path .= "?controller=buscarNombre&al=$nombre";
-            }
-
-        }
-
-        
-        
-        // $resul = $gbd->buscarNombre($nombre);
-
-            
-        // if (true) {
-            // include_once('../vista/header.php');
-            // include_once('../vista/buscarPorNombre.php');
-            // include_once('../vista/footer.php');
-            // $gbd->salir();
-        // } else {
-            // $gbd->salir();
-            // header('location: ../index.php?c=bNombre&error=2');
-            // exit;
-        // }
-    } else {
+        if ($gbd->exists('alimentos', 'nombre', $nombre)) 
+            $path .= "?controller=buscarNombre&al=$nombre";
+        else
+            $path .= '?controller=buscarNombre&error=2';
+    } else
         $path .= '?controller=buscarNombre&error=1';
-        // $gbd->salir();
-        // header('location: ../index.php?c=bNombre&error=1');
-        // exit;
     }
+    
+function searchId($gbd, &$path) {
+    $id = $_POST['id'];
+
+    if (!trimString($id)) {
+        if ($gbd->exists('alimentos', 'id', $id)) 
+            $path .= "?controller=buscarId&al=$id";
+        else
+            $path .= '?controller=buscarId&error=2';
+    } else
+        $path .= '?controller=buscarId&error=1';
 }

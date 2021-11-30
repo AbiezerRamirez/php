@@ -13,7 +13,7 @@ function mostrarVista() {
         'consult' => 'mostrarAlimentos',
         'add' => 'formInsertar',
         'buscarNombre' => 'buscarPorNombre',
-        'buscarId' => 'buscarPorCodigo'
+        'buscarId' => 'buscarPorId'
     );
     
     $layout = cargarVista('diseño');

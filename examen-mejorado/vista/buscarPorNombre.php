@@ -32,21 +32,16 @@
                 } else if ($_REQUEST['error'] == 2) {
                     echo '<span style="color: red">Alimento no encomtrado</span>';
                 }
-                unset($_REQUEST['error']);
             }
 
             if (isset($_REQUEST['al'])) {
                 $gbd = new GBD('alimentos');
-                foreach ($gbd->executeQueryArray("select * from alimentos where nombre = '" . $_REQUEST['al'] . "'") as $alimento) {
+                $alimentos = $gbd->executeQueryArray("select * from alimentos where nombre like '" . $_REQUEST['al'] . "'");
+                foreach ($alimentos as $alimento) {
                     echo '<tr><td>' . $alimento['nombre'] . '</td><td>' . $alimento['energia'] . '</td><td>' . $alimento['grasatotal'] . '</td></tr>';
                 }
                 $gbd->disconect();
             }
-            // if (isset($resul)) {
-                // foreach($resul as $alimento) {
-                    // echo '<tr><td>' . $alimento['nombre'] . '</td><td>' . $alimento['energia'] . '</td><td>' . $alimento['grasatotal'] . '</td></tr>';
-                // }
-            // }
             ?>
 
      </table>
