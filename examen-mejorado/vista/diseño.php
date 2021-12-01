@@ -20,6 +20,8 @@
         <a href="?controller=add">Insertar alimento</a> |
         <a href="?controller=buscarNombre">Buscar alimento (por nombre)</a> |
         <a href="?controller=buscarId">Buscar alimento (por código)</a>
+        <a href="?controller=mod">Modificar alimento</a>
+        <a href="?controller=delete">Eliminar alimento</a>
         <hr/>
     </div>
 

@@ -1,0 +1,44 @@
+<?php
+require_once('bd.php');
+class Usuario extends GBD
+{
+    private $user;
+    private $password;
+
+    function __construct($user, $password)
+    {
+        parent::__construct('alimentos');
+        $this->password = $password;
+        $this->user = $user;
+    }
+
+    function login()
+    {
+        if($this->userExists()) {
+            $password = parent::executeQueryArray("select password from usuarios where user = '$this->user'");
+            if (password_verify($this->password, $password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    function register($user, $password)
+    {
+        if(!$this->userExists()) {
+            $password = password_hash($this->password, PASSWORD_DEFAULT);
+            parent::insertKeyValuesArray('usuarios', array('user' => $this->user, 'password' => $password));
+            return true;
+        }
+        return false;
+    }
+
+    function userExists() {
+        return parent::exists('usuarios', 'user', $this->user);
+    }
+
+    function exit()
+    {
+        parent::disconect();
+    }
+}

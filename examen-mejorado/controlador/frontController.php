@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('modelo/bd.php');
 
 function cargarVista($vista) {
@@ -7,19 +8,28 @@ function cargarVista($vista) {
     return ob_get_clean();
 }
 
-function mostrarVista() {
+function mostrarVista($content = '') {
     $vistas = array(
         'inicio' => 'inicio',
         'consult' => 'mostrarAlimentos',
         'add' => 'formInsertar',
         'buscarNombre' => 'buscarPorNombre',
-        'buscarId' => 'buscarPorId'
+        'buscarId' => 'buscarPorId',
+        'mod'   => 'modificar',
+        'delete' => 'eliminar'
     );
     
     $layout = cargarVista('diseño');
     if(!isset($_REQUEST['controller'])) $content = cargarVista('inicio');
-    else if (key_exists($_REQUEST['controller'], $vistas)) $content = cargarVista($vistas[$_REQUEST['controller']]); else $content = '<h2 style="text-align: center">ERROR 404: NOT FOUND<h2>';
+    else if (key_exists($_REQUEST['controller'], $vistas)) $content = cargarVista($vistas[$_REQUEST['controller']]); 
+    else {
+        http_response_code(404);
+        $content = '<h2 style="text-align: center">ERROR 404: NOT FOUND<h2>';
+    }
     return str_replace('{{content}}', $content, $layout);
 }
+// if (!isset($_SESSION['user'])) {
 
-echo mostrarVista();
+// } else {
+    echo mostrarVista();
+// }

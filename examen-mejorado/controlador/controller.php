@@ -5,61 +5,73 @@ require_once('funciones.php');
 $gbd = new GBD('alimentos');
 $path = '../index.php';
 
-if(isset($_REQUEST['action'])) {
+if (isset($_REQUEST['action'])) {
     if ($_REQUEST['action'] == 'add') {
-        addAlimento($gbd, $path);
+        $path .= addAlimento($gbd);
     } else if ($_REQUEST['action'] == 'searchName') {
-        searchName($gbd, $path);
+        $path .= searchName($gbd);
     } else if ($_REQUEST['action'] == 'searchId') {
-        searchId($gbd, $path);
+        $path .= searchId($gbd);
+    } else if ($_REQUEST['action'] == 'update') {
+    } else if ($_REQUEST['action'] == 'delete') {
     }
-} 
+}
 
-$gbd ->disconect();
+$gbd->disconect();
 header('location: ' . $path);
 exit;
 
 // - - - - - - - - - - - - FUNCIONES - - - - - - - - - - - -
 
-function addAlimento($gbd, &$path) {
+function addAlimento($gbd)
+{
     $alimento = array(
-        'nombre' => $_POST['nombre'], 
-        'energia' => $_POST['energia'], 
-        'proteina' => $_POST['proteina'], 
-        'hidratocarbono' => $_POST['hc'], 
-        'fibra' => $_POST['fibra'], 
+        'nombre' => $_POST['nombre'],
+        'energia' => $_POST['energia'],
+        'proteina' => $_POST['proteina'],
+        'hidratocarbono' => $_POST['hc'],
+        'fibra' => $_POST['fibra'],
         'grasatotal' => $_POST['grasa']
     );
 
     if (!trimArray($alimento)) {
         if (arrayNumeric(array($_POST['energia'], $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa']))) {
             $gbd->insertKeyValuesArray('alimentos', $alimento);
-        } else
-            $path .= '?controller=add&error=2';
-    } else 
-        $path .= '?controller=add&error=1';
+            return '?controller=add&succes=1';
+        }
+        return '?controller=add&error=2';
+    }
+    return '?controller=add&error=1';
 }
 
-function searchName($gbd, &$path) {
+function searchName($gbd)
+{
     $nombre = $_POST['nombre'];
 
     if (!trimString($nombre)) {
-        if ($gbd->exists('alimentos', 'nombre', $nombre)) 
-            $path .= "?controller=buscarNombre&al=$nombre";
-        else
-            $path .= '?controller=buscarNombre&error=2';
-    } else
-        $path .= '?controller=buscarNombre&error=1';
+        if ($gbd->exists('alimentos', 'nombre', $nombre, true)) return "?controller=buscarNombre&al=$nombre";
+        return '?controller=buscarNombre&error=2';
     }
-    
-function searchId($gbd, &$path) {
+    return '?controller=buscarNombre&error=1';
+}
+
+function searchId($gbd)
+{
     $id = $_POST['id'];
 
     if (!trimString($id)) {
-        if ($gbd->exists('alimentos', 'id', $id)) 
-            $path .= "?controller=buscarId&al=$id";
-        else
-            $path .= '?controller=buscarId&error=2';
-    } else
-        $path .= '?controller=buscarId&error=1';
+        if ($gbd->exists('alimentos', 'id', $id, true)) return "?controller=buscarId&al=$id";
+        return '?controller=buscarId&error=2';
+    }
+    return '?controller=buscarId&error=1';
+}
+
+function update($gbd)
+{
+    
+}
+
+function delete($gbd)
+{
+    
 }

@@ -1,5 +1,5 @@
- <br/>
- <form name="formInsertar" action="controlador/controller.php?action=add" method="POST">
+<br/>
+ <form name="formInsertar" action="controlador/controller.php?action=update" method="POST">
      <table>
          <tr>
              <th>Nombre</th>
@@ -33,18 +33,3 @@
      </table>
      <input type="submit" value="insertar" name="insertar" />
  </form>
-
- <?php
-  if (isset($_REQUEST['error'])) {
-    if ($_REQUEST['error'] == 1) {
-      echo '<span style="color: red">Error, Campo vacio al enviar el formulario</span><br>';
-    } else if ($_REQUEST['error'] == 2) {
-      echo '<span style="color: red">Error, Dato no numerico</span><br>';
-    }
-    unset($_REQUEST['error']);
-  } else if (isset($_REQUEST['succes'])) {
-      echo '<span style="color: green">Alimento agregado con éxito</span><br>';
-  }
- ?>
- * Los valores deben referirse a 100 g del alimento
-
