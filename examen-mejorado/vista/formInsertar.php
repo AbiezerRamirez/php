@@ -1,5 +1,5 @@
  <br/>
- <form name="formInsertar" action="controlador/controller.php?action=add" method="POST">
+ <form name="formInsertar" action="controlador/controller.php?action=add" method="POST" enctype="multipart/form-data">
      <table>
          <tr>
              <th>Nombre</th>
@@ -27,6 +27,9 @@
              </td>
              <td>
                <input type="text" name="grasa" value="" />
+             </td>
+             <td>
+               <input type="file" name="imagen" accept="image/png, .jpeg, .jpg, image/gif">
              </td>
          </tr>
 
