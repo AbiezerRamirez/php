@@ -16,14 +16,14 @@ class Usuario extends GBD
     {
         if($this->userExists()) {
             $password = parent::executeQueryArray("select password from usuarios where user = '$this->user'");
-            if (password_verify($this->password, $password)) {
+            if (password_verify($this->password, $password[0]['password'])) {
                 return true;
             }
         }
         return false;
     }
     
-    function register($user, $password)
+    function register()
     {
         if(!$this->userExists()) {
             $password = password_hash($this->password, PASSWORD_DEFAULT);
@@ -35,6 +35,11 @@ class Usuario extends GBD
 
     function userExists() {
         return parent::exists('usuarios', 'user', $this->user);
+    }
+
+    function getUser()
+    {
+        return $this->user;
     }
 
     function exit()

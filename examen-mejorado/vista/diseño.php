@@ -11,6 +11,7 @@
 <body>
     <div id="cabecera">
         <h1>Alimentos. Información nutricional</h1>
+        <a href="controlador/sesionController.php?action=logout">Cerrar sesion</a>
     </div>
 
     <div id="menu">

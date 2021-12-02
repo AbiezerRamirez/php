@@ -8,7 +8,7 @@ function cargarVista($vista) {
     return ob_get_clean();
 }
 
-function mostrarVista($content = '') {
+function mostrarVista() {
     $vistas = array(
         'inicio' => 'inicio',
         'consult' => 'mostrarAlimentos',
@@ -28,8 +28,9 @@ function mostrarVista($content = '') {
     }
     return str_replace('{{content}}', $content, $layout);
 }
-// if (!isset($_SESSION['user'])) {
 
-// } else {
+if (!isset($_SESSION['user'])) {
+    echo cargarVista('login');
+} else {
     echo mostrarVista();
-// }
+}
