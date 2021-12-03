@@ -19,8 +19,8 @@ if (isset($_REQUEST['action'])) {
 }
 
 $gbd->disconect();
-// header('location: ' . $path);
-// exit;
+header('location: ' . $path);
+exit;
 
 // - - - - - - - - - - - - FUNCIONES - - - - - - - - - - - -
 
@@ -41,52 +41,26 @@ function addAlimento($gbd)
         if (arrayNumeric(array($_POST['energia'], $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa']))) {
             if ($foto['error'] == 0) {
                 if (str_contains($foto['type'], 'image')) {
-                    var_dump($foto);
-                    // $gbd->insertKeyValuesArray('alimentos', $alimento);
+                    $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
+                    if (!$nombreImg) {
+                        return '?controller=add&error=5';
+                    } 
+                    $alimento['fotografia'] = $nombreImg;
                 } else {
-                    echo 'hola';
+                    return '?controller=add&error=4';
                 }
             } else if ($foto['error'] == 4) {
-                echo 'hola2';
+                $alimento['fotografia'] = 'alimentos.png';
             } else {
-                motrarErrorFichero($foto);
+                return '?controller=add&error=3';
             }
+            $gbd->insertKeyValuesArray('alimentos', $alimento);
             return '?controller=add&succes=1';
         }
         return '?controller=add&error=2';
     }
     return '?controller=add&error=1';
 }
-
-
-// if (sizeof($arrayImagenes) == 0) {
-//     include 'misdatos.html';
-// } else {
-// foreach ($arrayImagenes as $clave => $valor) {
-//     if ($valor['error'] != 0) {
-//         comrpobarError($valor['error']);
-//         if ($valor['error'] == 1) {
-//             $err = true;
-//             break;
-//         }
-//     } else if (!str_contains($valor['type'], 'image')) {
-//         echo 'ERROR El archivo subido no es una imagen';
-//         $err = true;
-//         break;
-//     } else {
-//         $rutaImg = 'fotoservidor/' . basename($valor['name'], ".jpg") . time() . ".jpg";
-//         if (move_uploaded_file($valor['tmp_name'], $rutaImg)) {
-//             array_push($arrayRutas, $rutaImg);
-//         }
-//     }
-// }
-// if (!$err) {
-//     tabla(sizeof($arrayRutas), $arrayRutas);
-// } else {
-//     include 'misdatos.html';
-// }
-// }
-
 
 function searchName($gbd)
 {

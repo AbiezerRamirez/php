@@ -38,13 +38,18 @@
  </form>
 
  <?php
+  $errores = array(
+    1 => 'Error, Campo vacio al enviar el formulario',
+    'Error, Dato no numerico',
+    'Error al cargar la imagen',
+    'El archivo subido no es una imagen',
+    'Error al mover la imagen al servidor'
+  );
+
   if (isset($_REQUEST['error'])) {
-    if ($_REQUEST['error'] == 1) {
-      echo '<span style="color: red">Error, Campo vacio al enviar el formulario</span><br>';
-    } else if ($_REQUEST['error'] == 2) {
-      echo '<span style="color: red">Error, Dato no numerico</span><br>';
+    if (key_exists($_REQUEST['error'], $errores)) {
+      echo '<span style="color: red">' . $errores[$_REQUEST['error']] . '</span><br>';
     }
-    unset($_REQUEST['error']);
   } else if (isset($_REQUEST['succes'])) {
       echo '<span style="color: green">Alimento agregado con éxito</span><br>';
   }

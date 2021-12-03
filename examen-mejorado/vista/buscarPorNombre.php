@@ -38,7 +38,13 @@
                 $gbd = new GBD('alimentos');
                 $alimentos = $gbd->executeQueryArray("select * from alimentos where nombre like '" . $_REQUEST['al'] . "'");
                 foreach ($alimentos as $alimento) {
-                    echo '<tr><td>' . $alimento['nombre'] . '</td><td>' . $alimento['energia'] . '</td><td>' . $alimento['grasatotal'] . '</td></tr>';
+                    echo '
+                        <tr>
+                            <td>' . $alimento['nombre'] . '</td>
+                            <td>' . $alimento['energia'] . '</td>
+                            <td>' . $alimento['grasatotal'] . '</td>
+                            <td><img src="web/fotosAlimentos/' . $alimento['fotografia'] . '" alt="Imagen ' . $alimento['nombre'] . '" width="150"> </td>
+                        </tr>';
                 }
                 $gbd->disconect();
             }
