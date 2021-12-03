@@ -86,7 +86,40 @@ function searchId($gbd)
 
 function update($gbd)
 {
-    
+    $alimento = array(
+        'nombre' => $_POST['nombre'],
+        'energia' => $_POST['energia'],
+        'proteina' => $_POST['proteina'],
+        'hidratocarbono' => $_POST['hc'],
+        'fibra' => $_POST['fibra'],
+        'grasatotal' => $_POST['grasa'],
+    );
+
+    $foto = $_FILES['imagen'];
+
+    if (!trimArray($alimento)) {
+        if (arrayNumeric(array($_POST['energia'], $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa']))) {
+            // if ($foto['error'] == 0) {
+            //     if (str_contains($foto['type'], 'image')) {
+            //         $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
+            //         if (!$nombreImg) {
+            //             return '?controller=add&error=5';
+            //         } 
+            //         $alimento['fotografia'] = $nombreImg;
+            //     } else {
+            //         return '?controller=add&error=4';
+            //     }
+            // } else if ($foto['error'] == 4) {
+            //     $alimento['fotografia'] = 'alimentos.png';
+            // } else {
+            //     return '?controller=add&error=3';
+            // }
+            // $gbd->insertKeyValuesArray('alimentos', $alimento);
+            return '?controller=add&succes=1';
+        }
+        return '?controller=add&error=2';
+    }
+    return '?controller=add&error=1';
 }
 
 function delete($gbd)
