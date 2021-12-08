@@ -46,7 +46,7 @@ if (isset($_REQUEST['al']) && $gbd->exists('alimentos', 'nombre', $_REQUEST['al'
                 <td><?php echo $alimento['fibra'] ?></td>
                 <td><?php echo $alimento['grasatotal'] ?></td>
                 <td><img src="web/fotosAlimentos/<?php echo $alimento['fotografia'] ?>" alt="Imagen <?php echo $alimento['nombre'] ?>" width="150"></td>
-                <td><a href="index.php?controller=mod&al=<?php echo $name?>&id=<?php echo $alimento['id'] ?>">Modificar</a></td>
+                <td><a href="index.php?controller=mod&al=<?php echo $name ?>&id=<?php echo $alimento['id'] ?>">Modificar</a></td>
             </tr>
         <?php endforeach; ?>
     </table>
@@ -57,7 +57,7 @@ if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id'])) 
     $id = $_REQUEST['id'];
     $alimento = $gbd->executeQueryArray("select * from alimentos where id = $id");
 ?>
-    <form name="formInsertar" action="controlador/controller.php?action=update" method="POST">
+    <form name="formInsertar" action="controlador/controller.php?action=update" method="POST" enctype="multipart/form-data">
         <table>
             <tr>
                 <th>Nombre</th>
@@ -81,18 +81,37 @@ if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id'])) 
                     <input type="text" name="proteina" value="<?php echo $alimento[0]['proteina'] ?>" />
                 </td>
                 <td>
-                    <input type="text" name="hidratocarbono" value="<?php echo $alimento[0]['hidratocarbono'] ?>" />
+                    <input type="text" name="hc" value="<?php echo $alimento[0]['hidratocarbono'] ?>" />
                 </td>
                 <td>
                     <input type="text" name="fibra" value="<?php echo $alimento[0]['fibra'] ?>" />
                 </td>
                 <td>
-                    <input type="text" name="grasatotal" value="<?php echo $alimento[0]['grasatotal'] ?>" />
+                    <input type="text" name="grasa" value="<?php echo $alimento[0]['grasatotal'] ?>" />
                 </td>
+                <td>
+                    <input type="file" name="imagen" accept="image/png, .jpeg, .jpg, image/gif">
+                </td>
+            </tr>
         </table>
         <input type="submit" value="Modificar" name="modificar" />
     </form>
-    </tr>
 <?php
+    $errores = array(
+        1 => 'Error, Campo vacio al enviar el formulario',
+        'Error, Dato no numerico',
+        'Error al cargar la imagen',
+        'El archivo subido no es una imagen',
+        'Error al mover la nueva imagen al servidor'
+    );
+
+    if (isset($_REQUEST['error'])) {
+        if (key_exists($_REQUEST['error'], $errores)) {
+            echo '<span style="color: red">' . $errores[$_REQUEST['error']] . '</span><br>';
+        }
+    } else if (isset($_REQUEST['succes'])) {
+        echo '<span style="color: green">Alimento actualizado con éxito</span><br>';
+    }
 }
+
 ?>

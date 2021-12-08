@@ -19,8 +19,8 @@ if (isset($_REQUEST['action'])) {
 }
 
 $gbd->disconect();
-// header('location: ' . $path);
-// exit;
+header('location: ' . $path);
+exit;
 
 // - - - - - - - - - - - - FUNCIONES - - - - - - - - - - - -
 
@@ -82,71 +82,56 @@ function update($gbd)
 
         $id = $_POST['id'];
 
-        $alimento = array(
-            // 'nombre' => $_POST['nombre'],
-            // 'energia' => $_POST['energia'],
-            // 'proteina' => $_POST['proteina'],
-            // 'hidratocarbono' => $_POST['hc'],
-            // 'fibra' => $_POST['fibra'],
-            // 'grasatotal' => $_POST['grasa'],
+        $alimentoPOST = array(
+            'nombre' => $_POST['nombre'],
+            'energia' => $_POST['energia'],
+            'proteina' => $_POST['proteina'],
+            'hidratocarbono' => $_POST['hc'],
+            'fibra' => $_POST['fibra'],
+            'grasatotal' => $_POST['grasa'],
         );
         
         $alimentoBD = $gbd->executeQueryArray("select * from alimentos where id = $id");
         $alimentoBD = $alimentoBD[0];
         
+        $alimentoFinal = array();
+
         $foto = $_FILES['imagen'];
 
-        if ($foto['error' != 4]) {
+        if ($foto['error'] != 4) {
             if ($foto['error'] == 0) {
                 if (str_contains($foto['type'], 'image')) {
                     $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
                     if (!$nombreImg) {
-                        return '?controller=add&error=5';
+                        return "?controller=mod&error=5&id=$id";
 
                     } else if ($alimentoBD['fotografia'] != 'alimentos.png') {
                         unlink('../web/fotosAlimentos/' . $alimentoBD['fotografia']);
                     }
-                    $alimento['fotografia'] = $nombreImg;
+                    $alimentoFinal['fotografia'] = $nombreImg;
                 } else {
-                    return '?controller=add&error=4';
+                    return "?controller=mod&error=4&id=$id";
                 }
             } else {
-                return '?controller=add&error=3';
+                return "?controller=mod&error=3&id=$id";
             }
         }
-
-        foreach ($alimentoBD as $key => $value) {
-            if ($value != $_POST[$key]) {
-                echo 'hola';
-            }
-        }
-        var_dump($alimento);
-        echo '<br>';
-        var_dump($alimentoBD);
     
-        if (!trimArray($alimento)) {
+        if (!trimArray($alimentoPOST)) {
             if (arrayNumeric(array($_POST['energia'], $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa']))) {
-                // if ($foto['error'] == 0) {
-                //     if (str_contains($foto['type'], 'image')) {
-                //         $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
-                //         if (!$nombreImg) {
-                //             return '?controller=add&error=5';
-                //         } 
-                //         $alimento['fotografia'] = $nombreImg;
-                //     } else {
-                //         return '?controller=add&error=4';
-                //     }
-                // } else if ($foto['error'] == 4) {
-                //     $alimento['fotografia'] = 'alimentos.png';
-                // } else {
-                //     return '?controller=add&error=3';
-                // }
-                // $gbd->insertKeyValuesArray('alimentos', $alimento);
-                // return '?controller=mod&succes=1';
+                foreach ($alimentoBD as $key => $value) {
+                    if ($key != 'id' && $key != 'fotografia') {
+                        if ($value != $alimentoPOST[$key]) {
+                            $alimentoFinal = array_merge($alimentoFinal, array($key => $alimentoPOST[$key]));
+                        }
+                    }
+                }
+                $gbd->updatetKeyValuesArray('alimentos', $alimentoFinal, "id = $id");
+                return '?controller=mod&succes=1';
             }
-            // return '?controller=mod&error=2';
+            return "?controller=mod&error=2&id=$id";
         }
-        // return '?controller=mod&error=1';
+        return "?controller=mod&error=1&id=$id";
     }
 }
 

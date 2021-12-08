@@ -69,7 +69,7 @@ class GBD
     }
 
     // Actualiza de la tabla los datos pasados atravez de un array de claves -> valores
-    public function update($table, $columns, $condition) 
+    public function updateKeyValuesArray($table, $columns, $condition) 
     {
         try {
             $sql = array(

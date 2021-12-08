@@ -32,7 +32,6 @@
          <input type="file" name="imagen" accept="image/png, .jpeg, .jpg, image/gif">
        </td>
      </tr>
-
    </table>
    <input type="submit" value="insertar" name="insertar" />
  </form>
