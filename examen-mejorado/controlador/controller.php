@@ -9,9 +9,9 @@ if (isset($_REQUEST['action'])) {
     if ($_REQUEST['action'] == 'add') {
         $path .= addAlimento($gbd);
     } else if ($_REQUEST['action'] == 'searchName') {
-        $path .= searchName($gbd);
+        $path .= search($gbd, 'buscarNombre', 'nombre', true);
     } else if ($_REQUEST['action'] == 'searchId') {
-        $path .= searchId($gbd);
+        $path .= search($gbd, 'buscarId', 'id', true);
     } else if ($_REQUEST['action'] == 'update') {
         $path .= update($gbd);
     } else if ($_REQUEST['action'] == 'delete') {
@@ -19,8 +19,8 @@ if (isset($_REQUEST['action'])) {
 }
 
 $gbd->disconect();
-header('location: ' . $path);
-exit;
+// header('location: ' . $path);
+// exit;
 
 // - - - - - - - - - - - - FUNCIONES - - - - - - - - - - - -
 
@@ -62,64 +62,92 @@ function addAlimento($gbd)
     return '?controller=add&error=1';
 }
 
-function searchName($gbd)
+function search($gbd, $controller, $key, $like = false)
 {
-    $nombre = $_POST['nombre'];
+    $value = $_POST[$key];
 
-    if (!trimString($nombre)) {
-        if ($gbd->exists('alimentos', 'nombre', $nombre, true)) return "?controller=buscarNombre&al=$nombre";
-        return '?controller=buscarNombre&error=2';
+    if (!trimString($value)) {
+        if ($gbd->exists('alimentos', $key, $value, $like)) return "?controller=$controller&al=$value";
+        return "?controller=$controller&error=2";
     }
-    return '?controller=buscarNombre&error=1';
-}
-
-function searchId($gbd)
-{
-    $id = $_POST['id'];
-
-    if (!trimString($id)) {
-        if ($gbd->exists('alimentos', 'id', $id, true)) return "?controller=buscarId&al=$id";
-        return '?controller=buscarId&error=2';
-    }
-    return '?controller=buscarId&error=1';
+    return "?controller=$controller&error=1";
 }
 
 function update($gbd)
 {
-    $alimento = array(
-        'nombre' => $_POST['nombre'],
-        'energia' => $_POST['energia'],
-        'proteina' => $_POST['proteina'],
-        'hidratocarbono' => $_POST['hc'],
-        'fibra' => $_POST['fibra'],
-        'grasatotal' => $_POST['grasa'],
-    );
+    if (isset($_REQUEST['search']) && $_REQUEST['search'] == true) {
+        return search($gbd, 'mod', 'nombre');
+        
+    } else if (isset($_POST['id']) && $gbd->exists('alimentos', 'id', $_POST['id'])) {
 
-    $foto = $_FILES['imagen'];
+        $id = $_POST['id'];
 
-    if (!trimArray($alimento)) {
-        if (arrayNumeric(array($_POST['energia'], $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa']))) {
-            // if ($foto['error'] == 0) {
-            //     if (str_contains($foto['type'], 'image')) {
-            //         $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
-            //         if (!$nombreImg) {
-            //             return '?controller=add&error=5';
-            //         } 
-            //         $alimento['fotografia'] = $nombreImg;
-            //     } else {
-            //         return '?controller=add&error=4';
-            //     }
-            // } else if ($foto['error'] == 4) {
-            //     $alimento['fotografia'] = 'alimentos.png';
-            // } else {
-            //     return '?controller=add&error=3';
-            // }
-            // $gbd->insertKeyValuesArray('alimentos', $alimento);
-            return '?controller=add&succes=1';
+        $alimento = array(
+            // 'nombre' => $_POST['nombre'],
+            // 'energia' => $_POST['energia'],
+            // 'proteina' => $_POST['proteina'],
+            // 'hidratocarbono' => $_POST['hc'],
+            // 'fibra' => $_POST['fibra'],
+            // 'grasatotal' => $_POST['grasa'],
+        );
+        
+        $alimentoBD = $gbd->executeQueryArray("select * from alimentos where id = $id");
+        $alimentoBD = $alimentoBD[0];
+        
+        $foto = $_FILES['imagen'];
+
+        if ($foto['error' != 4]) {
+            if ($foto['error'] == 0) {
+                if (str_contains($foto['type'], 'image')) {
+                    $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
+                    if (!$nombreImg) {
+                        return '?controller=add&error=5';
+
+                    } else if ($alimentoBD['fotografia'] != 'alimentos.png') {
+                        unlink('../web/fotosAlimentos/' . $alimentoBD['fotografia']);
+                    }
+                    $alimento['fotografia'] = $nombreImg;
+                } else {
+                    return '?controller=add&error=4';
+                }
+            } else {
+                return '?controller=add&error=3';
+            }
         }
-        return '?controller=add&error=2';
+
+        foreach ($alimentoBD as $key => $value) {
+            if ($value != $_POST[$key]) {
+                echo 'hola';
+            }
+        }
+        var_dump($alimento);
+        echo '<br>';
+        var_dump($alimentoBD);
+    
+        if (!trimArray($alimento)) {
+            if (arrayNumeric(array($_POST['energia'], $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa']))) {
+                // if ($foto['error'] == 0) {
+                //     if (str_contains($foto['type'], 'image')) {
+                //         $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
+                //         if (!$nombreImg) {
+                //             return '?controller=add&error=5';
+                //         } 
+                //         $alimento['fotografia'] = $nombreImg;
+                //     } else {
+                //         return '?controller=add&error=4';
+                //     }
+                // } else if ($foto['error'] == 4) {
+                //     $alimento['fotografia'] = 'alimentos.png';
+                // } else {
+                //     return '?controller=add&error=3';
+                // }
+                // $gbd->insertKeyValuesArray('alimentos', $alimento);
+                // return '?controller=mod&succes=1';
+            }
+            // return '?controller=mod&error=2';
+        }
+        // return '?controller=mod&error=1';
     }
-    return '?controller=add&error=1';
 }
 
 function delete($gbd)

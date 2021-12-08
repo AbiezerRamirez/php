@@ -2,13 +2,17 @@
 session_start();
 require_once('modelo/bd.php');
 
-function cargarVista($vista) {
+function cargarVista($vista)
+{
     ob_start();
+    $gbd = new GBD('alimentos');
     require_once("vista/$vista.php");
+    $gbd->disconect();
     return ob_get_clean();
 }
 
-function mostrarVista() {
+function mostrarVista()
+{
     $vistas = array(
         'inicio' => 'inicio',
         'consult' => 'mostrarAlimentos',
@@ -18,10 +22,10 @@ function mostrarVista() {
         'mod'   => 'modificar',
         'delete' => 'eliminar'
     );
-    
+
     $layout = cargarVista('diseño');
-    if(!isset($_REQUEST['controller'])) $content = cargarVista('inicio');
-    else if (key_exists($_REQUEST['controller'], $vistas)) $content = cargarVista($vistas[$_REQUEST['controller']]); 
+    if (!isset($_REQUEST['controller'])) $content = cargarVista('inicio');
+    else if (key_exists($_REQUEST['controller'], $vistas)) $content = cargarVista($vistas[$_REQUEST['controller']]);
     else {
         http_response_code(404);
         $content = '<h2 style="text-align: center">ERROR 404: NOT FOUND<h2>';

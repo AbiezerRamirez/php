@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="web/css/estilo.css" />
     <title>Información Alimentos</title>
 </head>
+
 <body>
     <div id="cabecera">
         <h1>Alimentos. Información nutricional</h1>
@@ -15,7 +17,7 @@
     </div>
 
     <div id="menu">
-        <hr/>
+        <hr />
         <a href="?controller=inicio">Inicio</a> |
         <a href="?controller=consult">Consultar alimentos</a> |
         <a href="?controller=add">Insertar alimento</a> |
@@ -23,15 +25,16 @@
         <a href="?controller=buscarId">Buscar alimento (por código)</a>
         <a href="?controller=mod">Modificar alimento</a>
         <a href="?controller=delete">Eliminar alimento</a>
-        <hr/>
+        <hr />
     </div>
 
     <div id="contenido">
         {{content}}
     </div>
     <div id="pie">
-        <hr/>
+        <hr />
         <div style="text-align:center;">DWES. Creado por <strong>Abiezer Ramirez</strong>. Curso 2021/22</div>
     </div>
 </body>
+
 </html>
