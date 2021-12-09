@@ -15,6 +15,7 @@ if (isset($_REQUEST['action'])) {
     } else if ($_REQUEST['action'] == 'update') {
         $path .= update($gbd);
     } else if ($_REQUEST['action'] == 'delete') {
+        $path .= deleteAlimento($gbd);
     }
 }
 
@@ -137,7 +138,12 @@ function update($gbd)
     }
 }
 
-function delete($gbd)
+function deleteAlimento($gbd)
 {
-    
+    if (isset($_REQUEST['search']) && $_REQUEST['search'] == true) {
+        return search($gbd, 'delete', 'nombre');
+
+    } else if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_POST['id'])) {
+
+    }
 }
