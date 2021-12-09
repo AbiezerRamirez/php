@@ -105,7 +105,7 @@ function update($gbd)
                     if (!$nombreImg) {
                         return "?controller=mod&error=5&id=$id";
 
-                    } else if ($alimentoBD['fotografia'] != 'alimentos.png') {
+                    } else if ($alimentoBD['fotografia'] != '' && $alimentoBD['fotografia'] != 'alimentos.png') {
                         unlink('../web/fotosAlimentos/' . $alimentoBD['fotografia']);
                     }
                     $alimentoFinal['fotografia'] = $nombreImg;
@@ -126,7 +126,9 @@ function update($gbd)
                         }
                     }
                 }
-                $gbd->updatetKeyValuesArray('alimentos', $alimentoFinal, "id = $id");
+                if (sizeof($alimentoFinal) > 0) {
+                    $gbd->updateKeyValuesArray('alimentos', $alimentoFinal, "id = $id");
+                }
                 return '?controller=mod&succes=1';
             }
             return "?controller=mod&error=2&id=$id";

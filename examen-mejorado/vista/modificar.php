@@ -23,7 +23,10 @@ if (!isset($_REQUEST['al']) && isset($_REQUEST['error'])) {
     } else if ($_REQUEST['error'] == 2) {
         echo '<span style="color: red">Alimento no encontrado</span>';
     }
+} else if (isset($_REQUEST['succes']) && $_REQUEST['succes'] == 1) {
+    echo '<span style="color: green">Alimento actualizado con éxito</span><br>';
 }
+
 
 if (isset($_REQUEST['al']) && $gbd->exists('alimentos', 'nombre', $_REQUEST['al'])) {
     $name = $_REQUEST['al'];
@@ -66,11 +69,9 @@ if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id'])) 
                 <th>H. de carbono (g)</th>
                 <th>Fibra (g)</th>
                 <th>Grasa total (g)</th>
+                <th>Imagen</th>
             </tr>
             <tr>
-                <td>
-                    <input type="hidden" name="id" value="<?php echo $id ?>">
-                </td>
                 <td>
                     <input type="text" name="nombre" value="<?php echo $alimento[0]['nombre'] ?>" />
                 </td>
@@ -92,6 +93,9 @@ if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id'])) 
                 <td>
                     <input type="file" name="imagen" accept="image/png, .jpeg, .jpg, image/gif">
                 </td>
+                <td>
+                    <input type="hidden" name="id" value="<?php echo $id ?>">
+                </td>
             </tr>
         </table>
         <input type="submit" value="Modificar" name="modificar" />
@@ -109,8 +113,6 @@ if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id'])) 
         if (key_exists($_REQUEST['error'], $errores)) {
             echo '<span style="color: red">' . $errores[$_REQUEST['error']] . '</span><br>';
         }
-    } else if (isset($_REQUEST['succes'])) {
-        echo '<span style="color: green">Alimento actualizado con éxito</span><br>';
     }
 }
 
