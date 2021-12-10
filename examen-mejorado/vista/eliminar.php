@@ -49,7 +49,7 @@ if (isset($_REQUEST['al']) && $gbd->exists('alimentos', 'nombre', $_REQUEST['al'
                 <td><?php echo $alimento['fibra'] ?></td>
                 <td><?php echo $alimento['grasatotal'] ?></td>
                 <td><img src="web/fotosAlimentos/<?php echo $alimento['fotografia'] ?>" alt="Imagen <?php echo $alimento['nombre'] ?>" width="150"></td>
-                <td><a href="index.php?controller=delete&al=<?php echo $name ?>&id=<?php echo $alimento['id'] ?>">Eliminar</a></td>
+                <td><a href="index.php?controller=delete&id=<?php echo $alimento['id'] ?>">Eliminar</a></td>
             </tr>
         <?php endforeach; ?>
     </table>

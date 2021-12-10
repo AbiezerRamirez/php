@@ -144,6 +144,7 @@ function deleteAlimento($gbd)
         return search($gbd, 'delete', 'nombre');
 
     } else if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_POST['id'])) {
-
+        $gbd->delete('alimentos', 'id = \'' . $_REQUEST['id'] . '\'');
+        return '?controller=delete$succes=1';
     }
 }
