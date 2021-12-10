@@ -95,7 +95,7 @@ class GBD
 
     // Elimina un elemento de la tabla indicada
     
-    public function delete($table, $condition)
+    public function deleteRow($table, $condition)
     {
         try {
             $this->executeQuery("delete from $table where $condition");
