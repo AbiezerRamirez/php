@@ -109,7 +109,7 @@
 		// en este caso, función que inserta los datos del objeto alumno que me pasan
 		public function Registrar(Alumno $data) {
 			try {
-				$sql = "INSERT INTO alumnos (Nombre,Apellido,Sexo,FechaNacimiento,Fotografia) VALUES (?, ?, ?, ?, ?)";
+				$sql = "INSERT INTO alumnos (Nombre,Apellido,Sexo,FechaNacimiento) VALUES (?, ?, ?, ?)";
 
 				$this->pdo->prepare($sql)
 					->execute(
@@ -117,8 +117,7 @@
 							$data->__GET('Nombre'), 
 							$data->__GET('Apellido'), 
 							$data->__GET('Sexo'),
-							$data->__GET('FechaNacimiento'),
-							$data->__GET('Fotografia')
+							$data->__GET('FechaNacimiento')
 						)
 					);
 			} catch (Exception $e) {

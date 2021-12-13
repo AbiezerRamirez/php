@@ -1,10 +1,9 @@
 <?php
 	class Alumno {
 		private $id;
-		private $Sexo;
 		private $Nombre;
 		private $Apellido;
-		private $Fotografia;
+		private $Sexo;
 		private $FechaNacimiento;
 
 		/* 
