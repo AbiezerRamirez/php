@@ -60,6 +60,7 @@
 				$alumno->__SET('Apellido', $r->apellido);
 				$alumno->__SET('Sexo', $r->sexo);
 				$alumno->__SET('FechaNacimiento', $r->fechaNacimiento);
+				$alumno->__SET('Fotografia', $r->fotografia);
 
 				return $alumno;
 			} catch (Exception $e) {
@@ -88,7 +89,8 @@
 							nombre          = ?, 
 							apellido        = ?,
 							sexo            = ?, 
-							fechaNacimiento = ?
+							fechaNacimiento = ?,
+							fotografia = ?
 						WHERE id = ?";
 
 				$this->pdo->prepare($sql)
@@ -98,6 +100,7 @@
 							$data->__GET('Apellido'), 
 							$data->__GET('Sexo'),
 							$data->__GET('FechaNacimiento'),
+							$data->__GET('Fotografia'),
 							$data->__GET('id')
 						)
 					);

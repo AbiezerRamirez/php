@@ -28,7 +28,7 @@
         <main role="main" class="inner cover">
             <div>
 
-                <form action="?action=<?php echo $alumno->id > 0 ? 'actualizar' : 'registrar'; ?>" method="post" style="margin-bottom:30px;" enctype="multipart/form-data">
+                <form action="?action=<?php echo $alumno->id > 0 ? 'actualizar&foto=' . $alumno->__GET('Fotografia') : 'registrar'; ?>" method="post" style="margin-bottom:30px;" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo $alumno->__GET('id'); ?>" />
 
                     <table style="width:500px;">
@@ -88,7 +88,7 @@
                                 <a href="?action=editar&id=<?php echo $r->id; ?>">Editar</a>
                             </td>
                             <td>
-                                <a href="?action=eliminar&id=<?php echo $r->id; ?>">Eliminar</a>
+                                <a href="?action=eliminar&id=<?php echo $r->id; ?>&foto=<?php echo $r->__GET('Fotografia') ?>">Eliminar</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

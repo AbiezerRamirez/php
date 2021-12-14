@@ -16,6 +16,20 @@ if (isset($_REQUEST['action'])) {
             $alumno->__SET('Sexo',            $_REQUEST['Sexo']);
             $alumno->__SET('FechaNacimiento', $_REQUEST['FechaNacimiento']);
 
+            $foto = $_FILES['fotografia'];
+
+            if ($foto['error'] == 0 && str_contains($foto['type'], 'image')) {
+                $nombreFoto = subirFotoServidor($foto, 'assets/img/');
+            }
+            
+            if (!isset($nombreFoto) || !$nombreFoto) {
+                $nombreFoto = $_REQUEST['foto'];
+            } else {
+                unlink('assets/img/' . $_REQUEST['foto']);
+            }
+
+            $alumno->__SET('Fotografia',    $nombreFoto);
+
             $modeloAlumno->Actualizar($alumno);
             header('Location: index.php');
             break;
@@ -43,6 +57,9 @@ if (isset($_REQUEST['action'])) {
             break;
 
         case 'eliminar':
+            if ($_REQUEST['foto'] != 'blank-profile.png') {
+                unlink('assets/img/'.$_REQUEST['foto']);
+            }
             $modeloAlumno->Eliminar($_REQUEST['id']);
             header('Location: index.php');
             break;
