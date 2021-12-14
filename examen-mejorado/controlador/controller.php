@@ -82,7 +82,6 @@ function update($gbd)
     } else if (isset($_POST['id']) && $gbd->exists('alimentos', 'id', $_POST['id'])) {
 
         $id = $_POST['id'];
-
         $alimentoPOST = array(
             'nombre' => $_POST['nombre'],
             'energia' => $_POST['energia'],
@@ -104,17 +103,17 @@ function update($gbd)
                 if (str_contains($foto['type'], 'image')) {
                     $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
                     if (!$nombreImg) {
-                        return "?controller=mod&error=5&id=$id";
+                        return "?controller=mod&error=5&id=$id&al=" . $alimentoBD['nombre'];
 
                     } else if ($alimentoBD['fotografia'] != '' && $alimentoBD['fotografia'] != 'alimentos.png') {
                         unlink('../web/fotosAlimentos/' . $alimentoBD['fotografia']);
                     }
                     $alimentoFinal['fotografia'] = $nombreImg;
                 } else {
-                    return "?controller=mod&error=4&id=$id";
+                    return "?controller=mod&error=4&id=$id&al=" . $alimentoBD['nombre'];
                 }
             } else {
-                return "?controller=mod&error=3&id=$id";
+                return "?controller=mod&error=3&id=$id&al=" . $alimentoBD['nombre'];
             }
         }
     
@@ -132,9 +131,9 @@ function update($gbd)
                 }
                 return '?controller=mod&succes=1';
             }
-            return "?controller=mod&error=2&id=$id";
+            return "?controller=mod&error=2&id=$id&al=" . $alimentoBD['nombre'];
         }
-        return "?controller=mod&error=1&id=$id";
+        return "?controller=mod&error=1&id=$id&al=" . $alimentoBD['nombre'];
     }
 }
 
@@ -143,7 +142,10 @@ function deleteAlimento($gbd)
     if (isset($_REQUEST['search']) && $_REQUEST['search'] == true) {
         return search($gbd, 'delete', 'nombre');
 
-    } else if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id'])) {
+    } else if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id']) && isset($_REQUEST['img'])) {
+        if ($_REQUEST['img'] != 'alimentos.png') {
+            unlink('../web/fotosAlimentos/' . $_REQUEST['img']);
+        }
         $gbd->deleteRow('alimentos', 'id = ' . $_REQUEST['id']);
         return '?controller=delete&succes=1';
     }

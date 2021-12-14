@@ -120,17 +120,6 @@ class GBD
         }
     }
 
-    // public function existsLike($table, $column, $value)
-    // {
-    //     try {
-    //         $element = $this->executeQueryArray("select $column from $table where $column like '$value'");
-    //         if (empty($element)) return false;
-    //         return true;
-    //     } catch (Exception $e) {
-    //         die($e->getMessage());
-    //     }
-    // }
-
     public function disconect()
     {
         $this->conexion = null;
