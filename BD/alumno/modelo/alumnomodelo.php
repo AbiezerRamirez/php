@@ -32,6 +32,7 @@
 					$alumno->__SET('Apellido', $r->apellido);
 					$alumno->__SET('Sexo', $r->sexo);
 					$alumno->__SET('FechaNacimiento', $r->fechaNacimiento);
+					$alumno->__SET('Fotografia', $r->fotografia);
 
 					$result[] = $alumno;
 				}

@@ -79,7 +79,7 @@
                     </thead>
                     <?php foreach ($modeloAlumno->Listar() as $r) : ?>
                         <tr>
-                            <td><?php echo 'hola' ?></td>
+                            <td style="text-align: center;padding:.2em;"><img src="assets/img/<?php echo $r->__GET('Fotografia') ?>" alt="Fotografia <?php echo $r->__GET('Nombre'); ?>" width="100"></td>
                             <td><?php echo $r->__GET('Nombre'); ?></td>
                             <td><?php echo $r->__GET('Apellido'); ?></td>
                             <td><?php echo $r->__GET('Sexo') == 1 ? 'H' : 'F'; ?></td>

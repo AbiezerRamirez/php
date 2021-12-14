@@ -26,14 +26,13 @@ if (isset($_REQUEST['action'])) {
             $alumno->__SET('Sexo',            $_REQUEST['Sexo']);
             $alumno->__SET('FechaNacimiento', $_REQUEST['FechaNacimiento']);
 
-            $fotografia = $_FILES['fotografia'];
-            $nombreFoto = false;
+            $foto = $_FILES['fotografia'];
 
-            if ($fotografia['error'] == 4 && str_contains($fotografia['type'], 'image')) {
+            if ($foto['error'] == 0 && str_contains($foto['type'], 'image')) {
                 $nombreFoto = subirFotoServidor($foto, 'assets/img/');
             }
 
-            if (!$nombreFoto) {
+            if (!isset($nombreFoto) || !$nombreFoto) {
                 $nombreFoto = 'blank-profile.png';
             }
 
