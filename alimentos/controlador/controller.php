@@ -42,7 +42,7 @@ function addAlimento($gbd)
         if (arrayNumeric(array($_POST['energia'], $_POST['proteina'], $_POST['hc'], $_POST['fibra'], $_POST['grasa']))) {
             if ($foto['error'] == 0) {
                 if (str_contains($foto['type'], 'image')) {
-                    $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
+                    $nombreImg = subirFotoServidor($foto, '../web/img/fotosAlimentos/');
                     if (!$nombreImg) {
                         return '?controller=add&error=5';
                     } 
@@ -101,12 +101,12 @@ function update($gbd)
         if ($foto['error'] != 4) {
             if ($foto['error'] == 0) {
                 if (str_contains($foto['type'], 'image')) {
-                    $nombreImg = subirFotoServidor($foto, '../web/fotosAlimentos/');
+                    $nombreImg = subirFotoServidor($foto, '../web/img/fotosAlimentos/');
                     if (!$nombreImg) {
                         return "?controller=mod&error=5&id=$id&al=" . $alimentoBD['nombre'];
 
                     } else if ($alimentoBD['fotografia'] != '' && $alimentoBD['fotografia'] != 'alimentos.png') {
-                        unlink('../web/fotosAlimentos/' . $alimentoBD['fotografia']);
+                        unlink('../web/img/fotosAlimentos/' . $alimentoBD['fotografia']);
                     }
                     $alimentoFinal['fotografia'] = $nombreImg;
                 } else {
@@ -144,7 +144,7 @@ function deleteAlimento($gbd)
 
     } else if (isset($_REQUEST['id']) && $gbd->exists('alimentos', 'id', $_REQUEST['id']) && isset($_REQUEST['img'])) {
         if ($_REQUEST['img'] != 'alimentos.png') {
-            unlink('../web/fotosAlimentos/' . $_REQUEST['img']);
+            unlink('../web/img/fotosAlimentos/' . $_REQUEST['img']);
         }
         $gbd->deleteRow('alimentos', 'id = ' . $_REQUEST['id']);
         return '?controller=delete&succes=1';

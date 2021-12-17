@@ -1,10 +1,10 @@
-<form name="formBusqueda" action="controlador/controller.php?action=searchName" method="POST">
+<form name="formBusqueda" action="controlador/controller.php?action=searchId" method="POST">
 
     <table>
         <tr>
-            <td>Nombre del alimento:</td>
+            <td>ID del alimento:</td>
             <td>
-                <input type="text" name="nombre">
+                <input type="text" name="id">
                 ('%' como comodín)
             </td>
 
@@ -13,8 +13,6 @@
             </td>
         </tr>
     </table>
-
-    <!-- </table> -->
 
 </form>
 
@@ -31,18 +29,19 @@
         } else if ($_REQUEST['error'] == 2) {
             echo '<span style="color: red">Alimento no encontrado</span>';
         }
+        unset($_REQUEST['error']);
     }
 
     if (isset($_REQUEST['al'])) {
-        $alimentos = $gbd->executeQueryArray("select * from alimentos where nombre like '" . $_REQUEST['al'] . "'");
+        $alimentos = $gbd->executeQueryArray("select * from alimentos where id like '" . $_REQUEST['al'] . "'");
         foreach ($alimentos as $alimento) {
             echo '
-                        <tr>
-                            <td>' . $alimento['nombre'] . '</td>
-                            <td>' . $alimento['energia'] . '</td>
-                            <td>' . $alimento['grasatotal'] . '</td>
-                            <td><img src="web/fotosAlimentos/' . $alimento['fotografia'] . '" alt="Imagen ' . $alimento['nombre'] . '" width="150"> </td>
-                        </tr>';
+                <tr>
+                    <td>' . $alimento['nombre'] . '</td>
+                    <td>' . $alimento['energia'] . '</td>
+                    <td>' . $alimento['grasatotal'] . '</td>
+                    <td><img src="web/img/fotosAlimentos/' . $alimento['fotografia'] . '" alt="Imagen ' . $alimento['nombre'] . '" width="150"> </td>
+                </tr>';
         }
     }
     ?>

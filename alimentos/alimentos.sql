@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2021 a las 01:39:42
+-- Tiempo de generación: 17-12-2021 a las 18:54:26
 -- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.0.11
+-- Versión de PHP: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,8 +43,8 @@ CREATE TABLE `alimentos` (
 --
 
 INSERT INTO `alimentos` (`id`, `nombre`, `energia`, `proteina`, `hidratocarbono`, `fibra`, `grasatotal`, `fotografia`) VALUES
-(1, 'Pan blanco', '74', '3', '14', '1', '1', ''),
-(2, 'Pan integral', '65', '3', '9', '7', '1', '');
+(1, 'Pan blanco', '74', '3', '14', '1', '1', 'alimentos.png'),
+(2, 'Pan integral', '65', '3', '9', '7', '1', 'alimentos.png');
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`user`, `password`) VALUES
-('abiezer', '$2y$10$BUxEeZCGzLrGsWFuNkJpBONfolNe2kI.biwbaLE.Ql2Yp745W0Tfe');
+('abiezer', '$2y$10$TmFozHtoOQUnczzSBUpQv.0toKtbzWEP/hj87tUQ0l88N.6INQUmy');
 
 --
 -- Índices para tablas volcadas
@@ -88,7 +88,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `alimentos`
 --
 ALTER TABLE `alimentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -24,7 +24,7 @@ if (isset($_REQUEST['action'])) {
             
             if (!isset($nombreFoto) || !$nombreFoto) {
                 $nombreFoto = $_REQUEST['foto'];
-            } else {
+            } else if ($_REQUEST['foto'] != 'blank-profile.png') {
                 unlink('assets/img/' . $_REQUEST['foto']);
             }
 
