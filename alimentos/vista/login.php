@@ -23,10 +23,10 @@
         }
 
         form {
-            margin-top: 2em;
-            border: 1px solid #000;
             padding: 1em;
+            margin-top: 2em;
             text-align: center;
+            border: 1px solid #000;
         }
 
         input,
