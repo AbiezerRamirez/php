@@ -4,7 +4,7 @@ class Conexion
     public static function conexion()
     {
         try {
-            $conexion = new PDO('mysql:host=' . Config::$host . ';dbname=' . Config::$database . ';port=' . Config::$port . ';charset=' . Config::$charset, Config::$username, Config::$password);
+            $conexion = new PDO('mysql:host=localhost;dbname=eatstore;port=3306;charset=utf8mb4' , 'root', '');
             $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "<br>Error: " . $e->getMessage();
