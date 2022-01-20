@@ -1,12 +1,12 @@
 <?php
     spl_autoload_register(function ($clase) {
         $pathContorllers = 'app/controllers/' . $clase . '.php';
-        // $pathBD = 'bd/' . $clase . '.php';
+        $pathBD = 'bd/' . $clase . '.php';
         $pathModels = 'app/models/' . $clase . '.php';
         if (file_exists($pathContorllers)) {
             require_once $pathContorllers;
-        // } elseif (file_exists($pathBD)) {
-            // require_once $pathBD;
+        } elseif (file_exists($pathBD)) {
+            require_once $pathBD;
         } elseif (file_exists($pathModels)) {
             require_once $pathModels;
         }
