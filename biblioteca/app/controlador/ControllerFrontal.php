@@ -1,8 +1,8 @@
 <?php
     spl_autoload_register(function ($clase) {
-        $pathContorllers = 'app/controllers/' . $clase . '.php';
+        $pathContorllers = 'app/controlador/' . $clase . '.php';
         $pathBD = 'bd/' . $clase . '.php';
-        $pathModels = 'app/models/' . $clase . '.php';
+        $pathModels = 'app/modelo/' . $clase . '.php';
         if (file_exists($pathContorllers)) {
             require_once $pathContorllers;
         } elseif (file_exists($pathBD)) {

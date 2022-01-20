@@ -4,25 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EAT Store</title>
-    <link rel="stylesheet" href="../../css/normalize.css">
-    <link rel="stylesheet" href="../../css/jquery-ui.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
     <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css"> -->
     <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="js/jquery-ui.js"></script>
     <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 </head>
 <body>
     <header class="header">
-        <a href="index.html">
+        <a href="index.php">
             <img class="header__logo" src="img/logo.png" alt="Logotipo">
         </a>
     </header>
 
     <nav class="navegacion">
-        <a class="navegacion__enlace navegacion__enlace--activo" href="index.html">Tienda</a>
+        <a class="navegacion__enlace navegacion__enlace--activo" href="index.php">Tienda</a>
         <a class="navegacion__enlace" href="nosotros.html">Nosotros</a>        
+        <a class="navegacion__enlace" href="?page=login">Log in</a>
         <a class="navegacion__enlace navegacion__enlace--carrito" href="#" id="iconoCarrito"><img class="bloque__imagen" src="img/carrito.png" alt="carrito"></a>
     </nav>
 

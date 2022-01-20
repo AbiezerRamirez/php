@@ -1,39 +1,36 @@
 <?php
+require_once('app/db/conexion.php');
+
 class ViewController {
 
     private $layout;
     private $content;
 
-    public function __construct()
+    public function __construct($layout = 'layout')
     {
-        // $this->map = $map;
+        ob_start();
+        require_once("app/views/$layout.php");
+        $this->layout = ob_get_clean();
     }
 
-    public function loadContentView($view)
+    public function loadContent($view)
     {
         ob_start();
         // $gbd = new GBD('alimentos');
-        require_once("views/$view.html");
+        require_once("app/views/$view.php");
         // $gbd->disconect();
         $this->content = ob_get_clean();
     }
     
-    public function loadLayout()
+    public function drawSingleView($view)
     {
         ob_start();
-        require_once("views/layout.php");
-        $this->layout = ob_get_clean();
+        require_once("app/views/$view.php");
+        return ob_get_clean();
     }
 
-    public static function drawView($view)
+    public function drawView()
     {
-        // $layout = cargarVista('diseño');
-        // if (!isset($_REQUEST['controller'])) $content = cargarVista('inicio');
-        // else if (key_exists($_REQUEST['controller'], $vistas)) $content = cargarVista($vistas[$_REQUEST['controller']]);
-        // else {
-        //     http_response_code(404);
-        //     $content = '<h2 style="text-align: center">ERROR 404: NOT FOUND<h2>';
-        // }
-        // return str_replace('{{content}}', $content, $layout);
+        return str_replace('{{content}}', $this->content, $this->layout);
     }
 }
