@@ -4,6 +4,7 @@ $message = array(
         1 => "Error, ya existe otro usuario con ese correo",
         2 => "Error, Campo requerido vacio al enviar el formulario",
         3 => "Error, Correo o contraseña incorrectos",
+        4 => "Ciente no encontrado, no se han podido actulizar los datos",
         // 1 => "El alias ya existe, debes elegir otro",
         // 2 => "Error, ya existe otro usuario con ese correo",
         // 4 => "Error, el correo y la contraseña no coinciden",

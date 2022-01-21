@@ -3,47 +3,29 @@
 class Client extends Queries
 {
     private $data;
-    private $mail;
-    private $password;
-
-    function __construct()
-    {
-        $params = func_get_args();
-        $num_params = func_num_args();
-        $funcion_constructor = '__construct' . $num_params;
-        if (method_exists($this, $funcion_constructor)) {
-            call_user_func_array(array($this, $funcion_constructor), $params);
-        }
-    }
-    // function __construct($mail, $password)
-    // {
-    //     parent::__construct();
-    //     $this->password = $password;
-    //     $this->mail = $mail;
-    // }
-
-    function __construct0()
+   
+    function __construct(array $data)
     {
         parent::__construct();
+        $this->data = $data;
     }
 
-    function __construct2($mail, $password)
+    function getData()
     {
-        parent::__construct();
-        $this->password = $password;
-        $this->mail = $mail;
+        return $this->data;
     }
 
     function login()
     {
-        if ($this->userExists()) {
-            $client = parent::executeQueryArray("select * from cliente where correoe = '$this->mail'");
+        if ($this->clientExists('correoe', $this->data['correoe'])) {
+            $client = parent::executeQueryArray("select * from cliente where correoe = '" . $this->data['correoe'] . "'");
             $client = $client[0];
-            if (password_verify($this->password, $client['contras'])) {
+            if (password_verify($this->data['password'], $client['contras'])) {
                 $this->data =  array(
+                    'id' => $client['idcliente'],
                     'dni' => $client['dni'],
                     'nombre' => $client['nombre'],
-                    'correo' => $client['correoe'],
+                    'correoe' => $client['correoe'],
                     'direccion' => $client['direccion']
                 );
                 return true;
@@ -52,23 +34,36 @@ class Client extends Queries
         return false;
     }
 
-    function register($data)
+    function register()
     {
-        if (!$this->userExists()) {
-            parent::insertKeyValuesArray('cliente', $data);
+        if (!$this->clientExists('correoe', $this->data['correoe'])) {
+            parent::insertKeyValuesArray('cliente', $this->data);
             return true;
         }
         return false;
     }
 
-    function getData()
+    function update($id)
     {
-        return $this->data;
+        if ($this->clientExists('idcliente', $id)) {
+            parent::updateKeyValuesArray('cliente', $this->data, "idcliente = $id");
+            $client = parent::executeQueryArray("select * from cliente where idcliente = '$id'");
+            $client = $client[0];
+            $this->data =  array(
+                'id' => $client['idcliente'],
+                'dni' => $client['dni'],
+                'nombre' => $client['nombre'],
+                'correoe' => $client['correoe'],
+                'direccion' => $client['direccion']
+            );
+            return true;
+        }
+        return false;
     }
 
-    function userExists()
+    function clientExists($column, $value)
     {
-        return parent::exists('cliente', 'correoe', $this->mail);
+        return parent::exists('cliente', $column, $value);
     }
 
     function exit()

@@ -11,61 +11,88 @@ class ClientController
             'direccion' => $_POST['direction'],
             'contras' => password_hash($_POST['pass'], PASSWORD_DEFAULT)
         );
-        $path = 'error=2';
+        $message = 'error=2';
 
         if (!trimArray($data)) {
-            $user = new Client($data['correoe'], $data['contras']);
+            $client = new Client($data);
 
-            if ($user->register($data)) {
-                $path = 'succes=1';
+            if ($client->register()) {
+                $message = 'succes=1';
             } else {
-                $path = 'error=1';
+                $message = 'error=1';
             }
 
-            $user->disconect();
+            $client->disconect();
         }
-        header("location: ../../index.php?page=register&$path");
+        header("location: ../../index.php?page=register&$message");
         exit;
     }
 
     public static function update()
     {
-        $data = array(
+        $dataPost = array(
             'dni' => $_POST['dni'],
             'nombre' => $_POST['name'],
             'correoe' => $_POST['mail'],
             'direccion' => $_POST['direction'],
         );
+        $finalData = array();
         if ($_POST['pass'] != '') {
-            $data['contras'] = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+            $finalData['contras'] = password_hash($_POST['pass'], PASSWORD_DEFAULT);
         }
+        $message = 'error=2';
 
-        if (!trimArray($data)) {
-            $client = new Client();
+        if (!trimArray($dataPost)) {
+            session_start();
+            foreach ($_SESSION['client'] as $key => $value) {
+                if ($key != 'id') {
+                    if ($value != $dataPost[$key]) {
+                        $finalData = array_merge($finalData, array($key => $dataPost[$key]));
+                    }
+                }
+            }
+            if (!empty($finalData)) {
+                $client = new Client($finalData);
+                if ($client->update($_SESSION['client']['id'])) {
+                    $_SESSION['client'] = $client->getData();
+                    $client->disconect();
+                    header("location: ../../index.php?page=profile");
+                    exit;
+                }
+                $client->disconect();
+                $message = 'error=4';
+            } else {
+                header("location: ../../index.php?page=profile");
+                exit;
+            }
         }
+        header("location: location: ../../index.php?page=updateProfile&$message");
+        exit;
     }
 
     public static function login()
     {
-        $mail = $_POST['mail'];
-        $password = $_POST['pass'];
-        $path = 'error=2';
+        $data = array(
+            'correoe' => $_POST['mail'],
+            'password' => $_POST['pass']
+        );
+        $message = 'error=2';
 
-        if (!trimString($mail) && !trimString($password)) {
-            $user = new Client($mail, $password);
+        if (!trimArray($data)) {
+            $client = new Client($data);
 
-            if ($user->login($password)) {
+            if ($client->login()) {
                 session_start();
-                $_SESSION['client'] = $user->getData();
-                $user->disconect();
+                $_SESSION['client'] = $client->getData();
+                $client->disconect();
                 header("location: ../../index.php");
                 exit;
             }
 
-            $path = 'error=3';
-            $user->disconect();
+            $message = 'error=3';
+            $client->disconect();
         }
-        header("location: ../../index.php?page=login&$path");
+        header("location: ../../index.php?page=login&$message");
         exit;
     }
 

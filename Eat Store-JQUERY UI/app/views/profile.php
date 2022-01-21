@@ -33,15 +33,20 @@
                 <form action="app/controllers/BackController.php?action=updateProfile" method="POST">
                     <li>DNI: <input type="text" name="dni" value="<?php echo $_SESSION['client']['dni']; ?>"></li>
                     <li>Nombre: <input type="text" name="name" value="<?php echo $_SESSION['client']['nombre']; ?>"></li>
-                    <li>Correo: <input type="email" name="mail" value="<?php echo $_SESSION['client']['correo']; ?>"></li>
+                    <li>Correo: <input type="email" name="mail" value="<?php echo $_SESSION['client']['correoe']; ?>"></li>
                     <li>Direccion: <input type="text" name="direction" value="<?php echo $_SESSION['client']['direccion']; ?>"></li>
                     <li>Nueva Contraseña: <input type="password" name="pass"></li>
                     <li><input type="submit" value="Modificar"></li>
                 </form>
-            <?php } else { ?>
+            <?php
+                if (isset($_GET['error'])) {
+                    echo $message['error'][$_GET['error']];
+                } 
+            } else { 
+            ?>
                 <li>DNI: <?php echo $_SESSION['client']['dni']; ?></li>
                 <li>Nombre: <?php echo $_SESSION['client']['nombre']; ?></li>
-                <li>Correo: <?php echo $_SESSION['client']['correo']; ?></li>
+                <li>Correo: <?php echo $_SESSION['client']['correoe']; ?></li>
                 <li>Direccion: <?php echo $_SESSION['client']['direccion']; ?></li>
             <?php } ?>
         </ul>
