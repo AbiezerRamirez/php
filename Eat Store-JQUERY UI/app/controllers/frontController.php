@@ -1,8 +1,12 @@
 <?php
     require_once('app/controllers/ViewController.php');
 
+    !isset ($_SESSION['client']) ? session_start(): NULL;
+
     $map = array(
         'home' => 'inicio',
+        'profile' => 'profile',
+        'updateProfile' => 'profile',
         // 'login' => 'login',
         // 'register' => 'register'
     );
@@ -23,6 +27,3 @@
     } else {
         echo $vc->drawSingleView($requestedPage);
     }
-    
-    //Iniciamos sesión sin datos
-    // !isset ($_SESSION['nombre']) ? session_start(): NULL;

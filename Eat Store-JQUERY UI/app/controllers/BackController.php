@@ -14,14 +14,21 @@
 
 $actions = array(
     'register' => array(
-        'controller' => 'UserController',
+        'controller' => 'ClientController',
         'action' => 'register'
     ),
     'login' => array(
-        'controller' => 'UserController',
+        'controller' => 'ClientController',
         'action' => 'login'
-    )
-
+    ),
+    'logout' => array(
+        'controller' => 'ClientController',
+        'action' => 'logout'
+    ),
+    'updateProfile' => array(
+        'controller' => 'ClientController',
+        'action' => 'update'
+    ),
 );
 
 if (isset($_REQUEST['action']) && isset($actions[$_REQUEST['action']])) {

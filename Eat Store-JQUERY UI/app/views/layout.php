@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <script src="js/jquery-ui.js"></script>
     <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 </head>
+
 <body>
     <header class="header">
         <a href="index.php">
@@ -22,8 +24,15 @@
 
     <nav class="navegacion">
         <a class="navegacion__enlace navegacion__enlace--activo" href="index.php">Tienda</a>
-        <a class="navegacion__enlace" href="nosotros.html">Nosotros</a>        
-        <a class="navegacion__enlace" href="?page=login">Log in</a>
+        <a class="navegacion__enlace" href="nosotros.html">Nosotros</a>
+        <?php
+            if (isset($_SESSION['client'])) {
+                echo '<a class="navegacion__enlace" href="?page=profile"> ' . $_SESSION['client']['nombre'] . ' </a>';
+                echo '<a class="navegacion__enlace" href="app/controllers/BackController.php?action=logout">Cerrar Sesion</a>';
+            } else {
+                echo '<a class="navegacion__enlace" href="?page=login">Iniciar Sesion</a>';
+            }
+        ?>
         <a class="navegacion__enlace navegacion__enlace--carrito" href="#" id="iconoCarrito"><img class="bloque__imagen" src="img/carrito.png" alt="carrito"></a>
     </nav>
 
@@ -41,18 +50,19 @@
         <table id="lista-carrito" class="carrito__lista">
             <thead>
                 <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th></th>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
     </div>
-       <script src="js/db.js"></script>
-       <script src="js/app1.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/app1.js"></script>
 </body>
+
 </html>
