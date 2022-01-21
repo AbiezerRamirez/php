@@ -50,26 +50,20 @@
     <h2>Inicia sesion o registrate</h2>
     <a href="?page=home">Volver al Inicio</a>
     <form action="app/controllers/BackController.php?action=login" method="POST">
-        <label for="user">Correo:</label>
-        <input type="text" name="user" id="user"><br>
+        <label for="mail">Correo:</label>
+        <input type="email" name="mail" id="mail"><br>
         <label for="pass">Contraseña:</label>
         <input type="password" name="pass" id="pass"><br>
         <input type="submit" value="Inicias Sesion">
         <button formaction="?page=register">Registrarse</button>
     </form>
     <?php
-    // $errores = array(
-    //     1 => 'Usuario y contraseña no definidos',
-    //     'Usuario o contraseña vacios al enviar el formulario',
-    //     'El usuario indicado ya esta en uso',
-    //     'Usuario o contraseña incorrectos'
-    // );
 
-    // if (isset($_REQUEST['error']) && key_exists($_REQUEST['error'], $errores)) {
-    //     echo '<span style="color: red">' . $errores[$_REQUEST['error']] . '</span>';
-    // } else if (isset($_REQUEST['succes']) && $_REQUEST['succes'] == 1) {
-    //     echo '<span style="color: green">Usuario registrado con exito</span>';
-    // }
+        require_once('app/controllers/errors.php');
+
+        if (isset($_GET['error'])) {
+            echo $message['error'][$_GET['error']];
+        }
     ?>
 </body>
 

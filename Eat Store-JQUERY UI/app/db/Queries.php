@@ -6,12 +6,6 @@ class Queries
     public function __construct()
     {
         $this->conexion = Conexion::conexion();
-        // try {
-        //     $this->conexion = new PDO("mysql:dbname=$name;host=127.0.0.1", 'root', '');
-        //     $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // } catch (Exception $e) {
-        //     die($e->getMessage());
-        // }
     }
 
     // Ejecuta una consulta

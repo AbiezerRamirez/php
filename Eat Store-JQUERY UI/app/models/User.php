@@ -2,44 +2,57 @@
 // require_once('bd.php');
 class User extends Queries
 {
-    private $user;
+    private $data;
+    private $mail;
     private $password;
 
-    function __construct($user, $password)
+    function __construct($mail, $password)
     {
         parent::__construct();
         $this->password = $password;
-        $this->user = $user;
+        $this->mail = $mail;
     }
 
     function login()
     {
-        if($this->userExists()) {
-            $password = parent::executeQueryArray("select password from usuarios where user = '$this->user'");
-            if (password_verify($this->password, $password[0]['password'])) {
+        if ($this->userExists()) {
+            $client = parent::executeQueryArray("select * from cliente where correoe = '$this->mail'");
+            $client = $client[0];
+            // var_dump($client);
+            // // $password = parent::executeQueryArray("select contras from cliente where correoe = '$this->mail'");
+            if (password_verify($this->password, $client['contras'])) {
+                $this->data =  array(
+                    $client['dni'],
+                    $client['nombre'],
+                    $client['correoe'],
+                    $client['direccion']
+                );
                 return true;
             }
+            // if (password_verify($pswd, $password[0]['password'])) {
+            //     return true;
+            // }
         }
         return false;
     }
-    
-    function register()
+
+    function register($data)
     {
-        if(!$this->userExists()) {
-            $password = password_hash($this->password, PASSWORD_DEFAULT);
-            parent::insertKeyValuesArray('usuarios', array('user' => $this->user, 'password' => $password));
+        if (!$this->userExists()) {
+            parent::insertKeyValuesArray('cliente', $data);
             return true;
         }
         return false;
     }
 
-    function userExists() {
-        return parent::exists('usuarios', 'user', $this->user);
+    function getData()
+    {
+        return $this->data;
     }
 
-    function getUser()
+    function userExists()
     {
-        return $this->user;
+        return parent::exists('cliente', 'correoe', $this->mail);
     }
 
     function exit()

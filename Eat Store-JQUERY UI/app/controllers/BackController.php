@@ -33,13 +33,6 @@ if (isset($_REQUEST['action']) && isset($actions[$_REQUEST['action']])) {
 
 $controller = $actions[$action];
 
-// Ejecución del controlador asociado a la ruta
-
-// echo $controller['controller'];
-
-// $ctl = new $controller['controller'];
-// $ctl->controller['action'];
-
 if (method_exists($controller['controller'], $controller['action'])) {
     call_user_func(
         array(
@@ -48,5 +41,3 @@ if (method_exists($controller['controller'], $controller['action'])) {
         )
     );
 } 
-
-// echo $_POST['mail'];

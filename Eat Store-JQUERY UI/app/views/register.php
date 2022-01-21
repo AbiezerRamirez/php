@@ -16,6 +16,7 @@
             display: flex;
             align-items: center;
             flex-direction: column;
+            padding: 2em;
         }
 
         h2 {
@@ -28,6 +29,7 @@
             flex-direction: column;
             padding: 3em;
             margin-top: 2em;
+            margin-bottom: 2em;
             text-align: center;
             border: 1px solid #000;
         }
@@ -61,5 +63,17 @@
         <input type="submit" value="Completar Registro">
         <button formaction="?page=login">Iniciar Sesion</button>
     </form>
+
+    <?php
+    require_once('app/controllers/errors.php');
+
+    if (isset($_GET['error'])) {
+        echo $message['error'][$_GET['error']];
+
+    } else if (isset($_GET['succes'])) {
+        echo $message['succes'][$_GET['succes']];
+    }
+
+    ?>
 </body>
 </html>
