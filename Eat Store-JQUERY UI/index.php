@@ -1,2 +1,2 @@
 <?php 
-require_once('app/controllers/frontController.php');
+require_once('app/controllers/FrontController.php');

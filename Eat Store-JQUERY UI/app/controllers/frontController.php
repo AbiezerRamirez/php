@@ -26,32 +26,3 @@
     
     //Iniciamos sesión sin datos
     // !isset ($_SESSION['nombre']) ? session_start(): NULL;
-
-
-    // Parseo de la ruta
-    // if (isset($_REQUEST['ctl'])) {
-    //     if (isset($map[$_REQUEST['ctl']])) {
-    //         $ruta = $_REQUEST['ctl'];            
-    //     } else {
-    //         echo '<p><h1>Error 404: No existe la ruta <i>' . $_REQUEST['ctl'] .'</h1></p>';
-    //         exit;
-    //     }
-    // } else {
-    //     $ruta = 'presentacion';
-    // }
-    // $controlador = $map[$ruta];
-
-    // Ejecución del controlador asociado a la ruta
-    // if (method_exists($controlador['controller'], $controlador['action'])) {
-    //     call_user_func(
-    //         array(
-    //             $controlador['controller'],
-    //             $controlador['action']
-    //         )
-    //     );
-    // } else {
-    //     header('Status: 404 Not Found');
-    //     echo '<p><h1>Error 404: El controlador <i>' . $controlador['controller'] . '->' . $controlador['action'] .
-    //         '</i> no existe</h1></p>';
-    // }
-    
