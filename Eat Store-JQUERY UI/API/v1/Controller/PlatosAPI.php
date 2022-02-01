@@ -1,5 +1,6 @@
 <?php
-class Platos
+require_once('../model/platosDB.php');
+class PlatosAPI
 {
     public function API()
     {
@@ -7,6 +8,7 @@ class Platos
         $method = $_SERVER['REQUEST_METHOD'];
         switch ($method) {
             case 'GET': // consulta
+                $this->getPlatos();
                 // $this->getPeoples();
                 break;
             case 'POST': // inserta
@@ -24,5 +26,9 @@ class Platos
         }
     }
 
-    
+    public function getPlatos()
+    {
+        $pdb = new PlatosDB();
+        echo $pdb->listarPlatos();
+    }
 }

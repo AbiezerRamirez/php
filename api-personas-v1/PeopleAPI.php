@@ -39,7 +39,7 @@ class PeopleAPI {
                 echo 'METODO NO SOPORTADO';
                 break;
         }
-    }   
+    }
 
     /**
      * Respuesta al cliente
@@ -47,6 +47,7 @@ class PeopleAPI {
      * @param String $status indica el estado de la respuesta puede ser "success" o "error"
      * @param String $message Descripcion de lo ocurrido
      */
+
     function response($code=200, $status="", $message="") {
         http_response_code($code);
         if( !empty($status) && !empty($message) ) {
@@ -80,6 +81,7 @@ class PeopleAPI {
     /**
      * metodo para guardar un nuevo registro de persona en la base de datos
     */
+    
     function savePeople() {
         if($_GET['action']=='peoples') {   
             //Decodifica un string de JSON
