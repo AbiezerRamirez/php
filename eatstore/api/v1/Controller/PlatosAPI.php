@@ -1,15 +1,25 @@
 <?php
-require_once('../model/platosDB.php');
+require_once('model/platosDB.php');
 class PlatosAPI
 {
     public function API()
     {
         header('Content-Type: application/JSON');
         $method = $_SERVER['REQUEST_METHOD'];
+        $url = explode('/', $_SERVER['REQUEST_URI']);
+        $lastValue = $url[sizeof($url)-1];
+
         switch ($method) {
             case 'GET': // consulta
-                $this->getPlatos();
-                // $this->getPeoples();
+                if (is_numeric($lastValue)) {
+                    $this->getPlatos($lastValue);
+
+                } else if (isset($_GET['categoria']) && isset($_GET['orden'])) {
+                    echo "X'D";
+
+                } else {
+                    echo ':D';
+                }
                 break;
             case 'POST': // inserta
                 // $this->savePeople();

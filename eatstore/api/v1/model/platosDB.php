@@ -1,5 +1,5 @@
 <?php
-require_once('../db/Queries.php');
+require_once('db/Queries.php');
 // include('../../db/Queries.php');
 class PlatosDB extends Queries
 {
