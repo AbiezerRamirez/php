@@ -7,18 +7,15 @@ class PlatosAPI
         header('Content-Type: application/JSON');
         $method = $_SERVER['REQUEST_METHOD'];
         $url = explode('/', $_SERVER['REQUEST_URI']);
-        $lastValue = $url[sizeof($url)-1];
+        $lastValue = explode('?', $url[sizeof($url) - 1]);
+        $lastValue = $lastValue[0];
 
         switch ($method) {
             case 'GET': // consulta
                 if (is_numeric($lastValue)) {
                     $this->getPlatos($lastValue);
-
-                } else if (isset($_GET['categoria']) && isset($_GET['orden'])) {
-                    echo "X'D";
-
                 } else {
-                    echo ':D';
+                    $this->getPlatos();
                 }
                 break;
             case 'POST': // inserta
@@ -36,9 +33,33 @@ class PlatosAPI
         }
     }
 
-    public function getPlatos()
+    public function getPlatos($id = 0)
     {
         $pdb = new PlatosDB();
-        echo $pdb->listarPlatos();
+        if ($id != 0) {
+            if ($pdb->existsPlato($id)) {
+                echo $pdb->listarPlato($id);
+            } else {
+                // respuesta de error?
+                // echo "el plato indicado no existe";
+            }
+        } else if (isset($_GET['categoria']) && isset($_GET['orden'])) {
+            $categoria = $_GET['categoria'];
+            $orden = $_GET['orden'];
+            if (
+                $categoria != "" &&
+                $orden != "" &&
+                ($orden == "DESC" || $orden == "ASC") &&
+                $pdb->exitsCategoria($categoria)
+                ) {
+                    echo $pdb->listarCategoria($categoria, $orden);
+                } else {
+                    // respuesta de error?
+                    // echo "la categoria indicada no existe o se encontraron parametros necesarios vacios";
+                }
+        } else {
+            echo $pdb->listarPlatos();
+        }
+        $pdb->exit();
     }
 }
