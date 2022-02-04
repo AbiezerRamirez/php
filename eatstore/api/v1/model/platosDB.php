@@ -32,7 +32,7 @@ class PlatosDB extends Queries
 
     public function updateImg($id, $name)
     {
-        $query = "UPDATE plato SET  foto=$name WHERE id=$id ";
+        $query = "UPDATE plato SET foto=$name WHERE idplato=$id ";
         parent::executeQuery($query);
     }
 
@@ -40,7 +40,8 @@ class PlatosDB extends Queries
     {
         parent::insertKeyValuesArray('plato', $data);
         $plato = parent::executeQueryArray("select MAX(idplato) as ultimoId from plato");
-        return $plato[0];
+        return json_encode($plato[0], JSON_FORCE_OBJECT);
+        // return $plato[0];
     }
 
     public function exitsCategoria($id)
