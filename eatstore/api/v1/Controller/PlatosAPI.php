@@ -26,10 +26,18 @@ class PlatosAPI
                 }
                 break;
             case 'PUT': // actualiza
-                // $this->updatePeople();       
+                if (is_numeric($lastValue)) {
+                    $this->updatePlato($lastValue);
+                } else {
+                    $this->response(null, 400, "parametros requeridos no validos o vacios");
+                }
                 break;
             case 'DELETE': // elimina
-                // $this->deletePeople();
+                if (is_numeric($lastValue)) {
+                    $this->deletePlato($lastValue);
+                } else {
+                    $this->response(null, 400, "parametros requeridos no validos o vacios");
+                }
                 break;
             default: // metodo NO soportado
                 echo 'METODO NO SOPORTADO';
@@ -39,19 +47,13 @@ class PlatosAPI
 
     public function getPlatos($id = 0)
     {
-        $data = [];
-        $error = '';
-        $header = '';
-        $state = 200;
-
         $pdb = new PlatosDB();
+
         if ($id != 0) {
             if ($pdb->existsPlato($id)) {
-                $data = $pdb->listarPlato($id);
+                $this->response($pdb->listarPlato($id));
             } else {
-                $error = "el plato indicado no existe";
-                $header = "HTTP/1.1 404 NOT FOUND";
-                $state = 404;
+                $this->response(null, 404, "el plato indicado no existe");
             }
         } else if (!empty($_SERVER['QUERY_STRING'])) {
             isset($_GET['categoria']) ? $categoria = $_GET['categoria'] : $categoria = "";
@@ -63,81 +65,41 @@ class PlatosAPI
                 ($orden == "DESC" || $orden == "ASC") &&
                 $pdb->exitsCategoria($categoria)
             ) {
-                $data = $pdb->listarCategoria($categoria, $orden);
+                $this->response($pdb->listarCategoria($categoria, $orden));
             } else {
-                $error = "parametros requeridos no validos o vacios";
-                $header = "HTTP/1.1 400 BAD REQUEST";
-                $state = 400;
+                $this->response(null, 400, "parametros requeridos no validos o vacios");
             }
         } else {
-            $data = $pdb->listarPlatos();
+            $this->response($pdb->listarPlatos());
         }
 
         $pdb->exit();
-        $this->output($data, $error, $state, $header);
     }
 
     public function postPlatos($id = 0)
     {
-        $output = '';
-        $message = '';
-        $state = '';
-        $header = '';
         $pdb = new PlatosDB();
+
         if ($id != 0) {
-            //espera imágenes tipo gif, jpg, png, bmp
-            //Las guardará como jpg y perderán calidad
-            // $rutaPathSinBarra = explode('/', $_SERVER['PATH_INFO']); [ID]!!!!
-            // print_r($_FILES);
-            $data = file_get_contents('php://input');
-            // echo $data;
             $nombre = "$id.jpg";
             $path = "../../img/$nombre";
             $url = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['SCRIPT_NAME']) . "/$path";
-            // echo $path;
-            //nombre aleatorio para la nueva foto y que guardaré en la base de datos
-            // $original = $consulta->nombre($rutaPathSinBarra[1]);
-            // $original = str_replace(' ', '_', $original);
-            // $nombre = $original . time() . '.jpg';
+            isset($_FILES['img']) ? $img = $_FILES['img'] : $img = [];
 
-            //dirección http de la imagen que acabo de subir
-            // $direccion = './fotos/' . $nombre;
-
-            //guardo la imagen en la carpeta foto con el nombre aleatorio
-
-            if ($pdb->existsPlato($id) && $data) {
-                // if ($data) {
-                print_r($data);
-                // } else {
-                // echo "hola";
-                // }
-                // file_put_contents($path, $data);
-                // $pdb->updateImg($id, "'$id.jpg'");
-                // $peso = filesize($path);
-
-                // $output = json_encode(array("bytes" => $peso, "href" => $url), JSON_FORCE_OBJECT);
+            if ($pdb->existsPlato($id)) {
+                if (!empty($img) && str_contains($img['type'], 'image')) {
+                    if (move_uploaded_file($img['tmp_name'], $path)) {
+                        $pdb->updateImg($id, "'$id.jpg'");
+                        $this->response(json_encode(array("bytes" => $img['size'], "href" => $url), JSON_FORCE_OBJECT));
+                    } else {
+                        $this->response(null, 500, "Error al mover la imagen al servidor");
+                    }
+                } else {
+                    $this->response(null, 400, "formato de archivo no valido o campo requerido vacio");
+                }
             } else {
-                $message = "plato no encontrado";
-                $header = "HTTP/1.1 404 NOT FOUND";
-                $state = 404;
+                $this->response(null, 404, "plato no encontrado");
             }
-
-            //guardo SOLO el nombre de la imagen en el registro de la BD correspondiente
-            // $consulta->insertar_foto($nombre, $rutaPathSinBarra[1]);
-
-            // $ruta = 'http://' . $_SERVER['SERVER_NAME'] . "/php/eatstore/img/$nombre";
-            // $s = $_SERVER['DOCUMENT_ROOT'];
-            // echo $s;
-            // echo $ruta;
-
-            //Creo un json son el tamaño de la imagen y la ruta http de la imagen para enviarlo al cliente
-            // $enlace = $ruta . $nombre;
-            // $respuesta = ["bytes" => 0, "href" => $enlace];
-
-            // header("Content-Type:Application/json");
-            // header("HTTP/1.1 201 CREATED");
-            //envío la información al cliente como un objetoF
-            // echo (json_encode($respuesta, JSON_FORCE_OBJECT));
         } else {
             $data = json_decode(file_get_contents('php://input'), true);
             if (
@@ -148,31 +110,60 @@ class PlatosAPI
                 key_exists('precio', $data)
             ) {
                 $data['foto'] = 'plato.jpg';
-                $output = $pdb->insertPlato($data);
+                $this->response($pdb->insertPlato($data));
             } else {
-                $message = "formato de envio para el plato no valido";
-                $header = "HTTP/1.1 400 BAD REQUEST";
-                $state = 400;
+                $this->response(null, 400, "formato de envio para el plato no valido");
             }
         }
+
         $pdb->exit();
-        $this->output($output, $message, $state, $header);
     }
 
-    function subirFotoServidor($foto, $path)
+    public function updatePlato($id)
     {
-        $extension = pathinfo($foto['name'], PATHINFO_EXTENSION);
-        $nombre_base = basename($foto['name'], ".$extension");
-        $nombre_aleatorio = $nombre_base . time() . ".$extension";
+        $data = json_decode(file_get_contents('php://input'), true);
+        $pdb = new PlatosDB();
 
-        $path .= $nombre_aleatorio;
-        if (move_uploaded_file($foto['tmp_name'], $path)) {
-            return $nombre_aleatorio;
+        if ($pdb->existsPlato($id)) {
+            if (!empty($data)) {
+                foreach ($data as $key => $value) {
+                    if (
+                        $key != 'nombre' &&
+                        $key != 'descripcion' &&
+                        $key != 'idcategoria' &&
+                        $key != 'precio'
+                    ) {
+                        $this->response(null, 400, "formato de envio para el plato no valido");
+                        $pdb->exit();
+                        return null;
+                    }
+                }
+                $pdb->update($data, $id);
+                $this->response(null, 200, "plato actualizado correctamente");
+            } else {
+                $this->response(null, 400, "campo requerido vacio");
+            }
+        } else {
+            $this->response(null, 404, "plato no encontrado");
         }
-        return false;
+
+        $pdb->exit();
     }
 
-    // metodo de respuestas?
+    public function deletePlato($id)
+    {
+        $pdb = new PlatosDB();
+
+        if ($pdb->existsPlato($id)) {
+            $pdb->delete($id);
+            $this->response(null, 200, "plato eliminado");
+        } else {
+            $this->response(null, 404, "plato no encontrado");
+        }
+        
+        $pdb->exit();
+    }
+
     protected function sendOutput($data, $httpHeaders = array())
     {
         header_remove('Set-Cookie');
@@ -187,7 +178,7 @@ class PlatosAPI
         exit;
     }
 
-    protected function output($responseData = '', $message = '', $estado = '', $strErrorHeader = '')
+    protected function responseMessage($responseData = '', $message = '', $estado = '', $strErrorHeader = '')
     {
         if (!$message) {
             $this->sendOutput(
@@ -199,6 +190,31 @@ class PlatosAPI
                 json_encode(array('estado' => $estado, 'mensaje' => $message)),
                 array('Content-Type: application/json', $strErrorHeader)
             );
+        }
+    }
+
+    protected function response($data = [], $state = 0, $message = '')
+    {
+        switch ($state) {
+            case 200:
+                $header = "HTTP/1.1 200 OK";
+                $this->responseMessage(null, $message, $state, $header);
+                break;
+            case 400:
+                $header = "HTTP/1.1 400 BAD REQUEST";
+                $this->responseMessage(null, $message, $state, $header);
+                break;
+            case 404:
+                $header = "HTTP/1.1 404 NOT FOUND";
+                $this->responseMessage(null, $message, $state, $header);
+                break;
+            case 500:
+                $header = "HTTP/1.1 500 INTERNAL SERVER ERROR";
+                $this->responseMessage(null, $message, $state, $header);
+                break;
+            default:
+                $this->responseMessage($data);
+                break;
         }
     }
 }

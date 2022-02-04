@@ -1,6 +1,6 @@
 <?php
 require_once('db/Queries.php');
-// include('../../db/Queries.php');
+
 class PlatosDB extends Queries
 {
     public function __construct()
@@ -41,7 +41,16 @@ class PlatosDB extends Queries
         parent::insertKeyValuesArray('plato', $data);
         $plato = parent::executeQueryArray("select MAX(idplato) as ultimoId from plato");
         return json_encode($plato[0], JSON_FORCE_OBJECT);
-        // return $plato[0];
+    }
+
+    public function update($data, $id)
+    {
+        parent::updateKeyValuesArray('plato', $data, "idplato = $id");
+    }
+
+    public function delete($id)
+    {
+        parent::deleteRow('plato', "idplato = $id");
     }
 
     public function exitsCategoria($id)
