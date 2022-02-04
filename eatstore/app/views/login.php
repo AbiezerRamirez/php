@@ -58,9 +58,6 @@
         <button formaction="?page=register">Registrarse</button>
     </form>
     <?php
-
-        require_once('app/controllers/errors.php');
-
         if (isset($_GET['error'])) {
             echo $message['error'][$_GET['error']];
         }

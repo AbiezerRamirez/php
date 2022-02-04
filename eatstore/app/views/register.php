@@ -65,15 +65,12 @@
     </form>
 
     <?php
-    require_once('app/controllers/errors.php');
-
     if (isset($_GET['error'])) {
         echo $message['error'][$_GET['error']];
 
     } else if (isset($_GET['succes'])) {
         echo $message['succes'][$_GET['succes']];
     }
-
     ?>
 </body>
 </html>

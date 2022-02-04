@@ -1,28 +1,39 @@
 <?php
 require_once('funciones.php');
+// include_once('Regex.php');
 class ClientController
 {
+
+
     public static function register()
     {
         $data = array(
-            'dni' => $_POST['dni'],
+            'dni' => strtoupper($_POST['dni']),
             'nombre' => $_POST['user'],
-            'correoe' => $_POST['mail'],
+            'correoe' => strtolower($_POST['mail']),
             'direccion' => $_POST['direction'],
             'contras' => password_hash($_POST['pass'], PASSWORD_DEFAULT)
         );
         $message = 'error=2';
 
         if (!trimArray($data)) {
-            $client = new Client($data);
+            if (Regex::checkRegex(Regex::$dniPattern, $data['dni'])) {
+                if (Regex::checkRegex(Regex::$emailPattern, $data['correoe'])) {
+                    $client = new Client($data);
 
-            if ($client->register()) {
-                $message = 'succes=1';
+                    if (!$client->clientExists('dni', $data['dni'])) {
+                        $client->register() ? $message = 'succes=1' : $message = 'error=1';
+                    } else {
+                        $message = 'error=7';
+                    }
+
+                    $client->disconect();
+                } else {
+                    $message = 'error=6';
+                }
             } else {
-                $message = 'error=1';
+                $message = 'error=5';
             }
-
-            $client->disconect();
         }
         header("location: ../../index.php?page=register&$message");
         exit;
@@ -31,9 +42,9 @@ class ClientController
     public static function update()
     {
         $dataPost = array(
-            'dni' => $_POST['dni'],
+            'dni' => strtoupper($_POST['dni']),
             'nombre' => $_POST['name'],
-            'correoe' => $_POST['mail'],
+            'correoe' => strtolower($_POST['mail']),
             'direccion' => $_POST['direction'],
         );
         $finalData = array();
@@ -43,30 +54,38 @@ class ClientController
         $message = 'error=2';
 
         if (!trimArray($dataPost)) {
-            session_start();
-            foreach ($_SESSION['client'] as $key => $value) {
-                if ($key != 'id') {
-                    if ($value != $dataPost[$key]) {
-                        $finalData = array_merge($finalData, array($key => $dataPost[$key]));
+            if (Regex::checkRegex(Regex::$dniPattern, $dataPost['dni'])) {
+                if (Regex::checkRegex(Regex::$emailPattern, $dataPost['correoe'])) {
+                    session_start();
+                    foreach ($_SESSION['client'] as $key => $value) {
+                        if ($key != 'id') {
+                            if ($value != $dataPost[$key]) {
+                                $finalData = array_merge($finalData, array($key => $dataPost[$key]));
+                            }
+                        }
                     }
+                    if (!empty($finalData)) {
+                        $client = new Client($finalData);
+                        if ($client->update($_SESSION['client']['id'])) {
+                            $_SESSION['client'] = $client->getData();
+                            $client->disconect();
+                            header("location: ../../index.php?page=profile");
+                            exit;
+                        }
+                        $client->disconect();
+                        $message = 'error=4';
+                    } else {
+                        header("location: ../../index.php?page=profile");
+                        exit;
+                    }
+                } else {
+                    $message = 'error=6';
                 }
-            }
-            if (!empty($finalData)) {
-                $client = new Client($finalData);
-                if ($client->update($_SESSION['client']['id'])) {
-                    $_SESSION['client'] = $client->getData();
-                    $client->disconect();
-                    header("location: ../../index.php?page=profile");
-                    exit;
-                }
-                $client->disconect();
-                $message = 'error=4';
             } else {
-                header("location: ../../index.php?page=profile");
-                exit;
+                $message = 'error=5';
             }
         }
-        header("location: location: ../../index.php?page=updateProfile&$message");
+        header("location: ../../index.php?page=updateProfile&$message");
         exit;
     }
 
@@ -104,10 +123,3 @@ class ClientController
         header("location: ../../index.php");
     }
 }
-
-// DNI regexp
-
-// /^([0-9]){8}([a-zA-Z]){1}/
-
-// mail regex
-// /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
