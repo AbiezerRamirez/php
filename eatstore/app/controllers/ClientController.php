@@ -17,8 +17,9 @@ class ClientController
         $message = 'error=2';
 
         if (!trimArray($data)) {
-            if (Regex::checkRegex(Regex::$dniPattern, $data['dni'])) {
-                if (Regex::checkRegex(Regex::$emailPattern, $data['correoe'])) {
+            if (preg_match(Regex::$dniPattern, $data['dni'])) {
+                echo 'funciona';
+                if (preg_match(Regex::$emailPattern, $data['correoe'])) {
                     $client = new Client($data);
 
                     if (!$client->clientExists('dni', $data['dni'])) {
@@ -32,6 +33,7 @@ class ClientController
                     $message = 'error=6';
                 }
             } else {
+                echo 'no funciona';
                 $message = 'error=5';
             }
         }
@@ -54,8 +56,8 @@ class ClientController
         $message = 'error=2';
 
         if (!trimArray($dataPost)) {
-            if (Regex::checkRegex(Regex::$dniPattern, $dataPost['dni'])) {
-                if (Regex::checkRegex(Regex::$emailPattern, $dataPost['correoe'])) {
+            if (preg_match(Regex::$dniPattern, $dataPost['dni'])) {
+                if (preg_match(Regex::$emailPattern, $dataPost['correoe'])) {
                     session_start();
                     foreach ($_SESSION['client'] as $key => $value) {
                         if ($key != 'id') {
