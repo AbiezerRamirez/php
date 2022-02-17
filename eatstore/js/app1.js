@@ -1,4 +1,5 @@
 let pedido=[];
+let productos;
 
 
 // Datos para la busqueda
@@ -16,7 +17,7 @@ function dibujarProductos(productos){
 
         $(".grid").append(`
         <div class="producto">
-            <img class="producto__imagen" src="img/${producto.imagen}" alt="imagen comida">
+            <img class="producto__imagen" src="img/${producto.foto}" alt="imagen comida">
             <div class="producto__informacion">
                 <p class="producto__nombre">${producto.nombre}</p>
                 <p class="producto__precio">${producto.precio}€</p>
@@ -128,7 +129,6 @@ function vaciar()
 function borrar(e){
     e.preventDefault();
     nombre=$(this).parents("tr").find(".nombre").text();
-    console.log(nombre);
     
     const pedido2=[];
     for (let producto2 of pedido){        
@@ -160,13 +160,10 @@ function filtrarProductos() {
  }
 
  
-$(function(){
-
+$(function() {
    pedido = JSON.parse(sessionStorage.getItem('carrito') ) || []  ;
    cargarHTML();
    
-   dibujarProductos(productos);   
-
    $("#preciosMM").slider({
     min:0,
     max:30,
@@ -189,7 +186,11 @@ $(function(){
         draggable: true,
         buttons: {
         "Vaciar Carrito": function(){vaciar()},
-        "Finalizar": function(){alert("Jorge");},
+        "Finalizar": function(){
+            console.log(pedido);
+            console.log($('#fPago').val());
+            console.log($('#descuento').prop('checked'));
+        },
         "Cerrar": function(){$(this).dialog("close");}}
     });
 
@@ -197,6 +198,14 @@ $(function(){
         e.preventDefault();
         $("#carrito").dialog("open");
     });  
+
+    $.ajax({
+        url: `${window.location.href}/API/v1/platos`,
+        success: function( result ) {
+            productos = result;
+            dibujarProductos(result);
+        }
+      });
 });
 
 

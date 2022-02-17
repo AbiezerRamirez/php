@@ -26,12 +26,12 @@
         <a class="navegacion__enlace navegacion__enlace--activo" href="index.php">Tienda</a>
         <a class="navegacion__enlace" href="nosotros.html">Nosotros</a>
         <?php
-            if (isset($_SESSION['client'])) {
-                echo '<a class="navegacion__enlace" href="?page=profile"> ' . $_SESSION['client']['nombre'] . ' </a>';
-                echo '<a class="navegacion__enlace" href="app/controllers/BackController.php?action=logout">Cerrar Sesion</a>';
-            } else {
-                echo '<a class="navegacion__enlace" href="?page=login">Iniciar Sesion</a>';
-            }
+        if (isset($_SESSION['client'])) {
+            echo '<a class="navegacion__enlace" href="?page=profile"> ' . $_SESSION['client']['nombre'] . ' </a>';
+            echo '<a class="navegacion__enlace" href="app/controllers/BackController.php?action=logout">Cerrar Sesion</a>';
+        } else {
+            echo '<a class="navegacion__enlace" href="?page=login">Iniciar Sesion</a>';
+        }
         ?>
         <a class="navegacion__enlace navegacion__enlace--carrito" href="#" id="iconoCarrito"><img class="bloque__imagen" src="img/carrito.png" alt="carrito"></a>
     </nav>
@@ -54,14 +54,28 @@
                     <th>Nombre</th>
                     <th>Precio</th>
                     <th>Cantidad</th>
-                    <th></th>
+                    <!-- <th></th> -->
                 </tr>
             </thead>
             <tbody>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>
+                        <select name="fPago" id="fPago">
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Efectivo">Efectivo</option>
+                        </select>
+                    </td>
+                    <td><label for="descuento">Descuento</label></td>
+                    <td><input type="checkbox" name="descuento" id="descuento"></td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
-    <script src="js/db.js"></script>
+    <!-- <script src="js/db.js"></script> -->
     <script src="js/app1.js"></script>
 </body>
 
