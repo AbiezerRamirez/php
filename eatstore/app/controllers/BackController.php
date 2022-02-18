@@ -29,6 +29,10 @@ $actions = array(
         'controller' => 'ClientController',
         'action' => 'update'
     ),
+    'buy' => array(
+        'controller' => 'BuyController',
+        'action' => 'buy'
+    )
 );
 
 if (isset($_REQUEST['action']) && isset($actions[$_REQUEST['action']])) {

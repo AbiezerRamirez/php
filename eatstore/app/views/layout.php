@@ -75,6 +75,9 @@
             </tfoot>
         </table>
     </div>
+
+    <div id="dialog">
+    </div>
     <!-- <script src="js/db.js"></script> -->
     <script src="js/app1.js"></script>
 </body>

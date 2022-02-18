@@ -3,8 +3,6 @@ require_once('funciones.php');
 // include_once('Regex.php');
 class ClientController
 {
-
-
     public static function register()
     {
         $data = array(
