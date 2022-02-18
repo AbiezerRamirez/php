@@ -103,6 +103,7 @@ class ClientController
             if ($client->login()) {
                 session_start();
                 $_SESSION['client'] = $client->getData();
+                $_SESSION['facturas'] = $client->getFacturas($_SESSION['client']['id']);
                 $client->disconect();
                 header("location: ../../index.php");
                 exit;

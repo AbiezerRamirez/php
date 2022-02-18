@@ -25,6 +25,11 @@ class Compra extends Queries
         }
         return true;
     }
+    
+    function getCompras($id)
+    {
+        return parent::executeQueryArray("select * from compra where idcliente = '$id'");
+    }
 
     function exit()
     {

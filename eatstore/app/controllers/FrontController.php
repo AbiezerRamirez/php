@@ -7,6 +7,7 @@
         'home' => 'inicio',
         'profile' => 'profile',
         'updateProfile' => 'profile',
+        'facturas' => 'profile'
         // 'login' => 'login',
         // 'register' => 'register'
     );

@@ -1,4 +1,5 @@
 <?php
+// require('../../vendor/autoload.php');
 require_once('funciones.php');
 class BuyController
 {
@@ -22,6 +23,7 @@ class BuyController
                 $idcompra = $c->comprar($compra);
 
                 if(isset($idcompra) && $c->detallarCompra($detalle_compra, $idcompra)) {
+                    $_SESSION['facturas'] = $c->getCompras($_SESSION['client']['id']);
                     header('Content-Type: application/json');
                     header('HTTP/1.1 200 OK');
                     echo json_encode(array('mensaje' => 'Compra realizada con exito'));

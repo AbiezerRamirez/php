@@ -3,7 +3,7 @@
 class Client extends Queries
 {
     private $data;
-   
+
     function __construct(array $data)
     {
         parent::__construct();
@@ -59,6 +59,11 @@ class Client extends Queries
             return true;
         }
         return false;
+    }
+
+    function getFacturas($id)
+    {
+        return parent::executeQueryArray("select * from compra where idcliente = '$id'");
     }
 
     function clientExists($column, $value)

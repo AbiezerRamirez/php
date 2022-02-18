@@ -1,0 +1,13 @@
+{
+    "name": "abiezer/eatstore",
+    "description": "proyecto eatstore daw2",
+    "type": "project",
+    "require": {
+        "mpdf/mpdf": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Abiezer\\Eatstore\\": "app/"
+        }
+    }
+}

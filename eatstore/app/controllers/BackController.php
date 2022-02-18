@@ -1,4 +1,5 @@
 <?php
+    // require '../../vendor/autoload.php';
     spl_autoload_register(function ($clase) {
         $pathContorllers = $clase . '.php';
         $pathBD = '../db/' . $clase . '.php';
