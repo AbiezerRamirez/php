@@ -191,9 +191,9 @@ function finalizarPedido() {
         type: "POST",
         url: "app/controllers/BackController.php?action=buy",
         data: data,
-        success: function (data) {
+        success: function (respuesta) {
             $( "#dialog" ).dialog({
-                title: "Mensaje",
+                title: "Compra Finalizada",
                 show: {
                   effect: "blind",
                   duration: 200
@@ -204,9 +204,25 @@ function finalizarPedido() {
                 }
               });
             $("#dialog").empty();
-            $("#dialog").append(`<p>${data.mensaje}</p>`);
+            $("#dialog").append(`<p>${respuesta.mensaje}</p>`);
+            vaciar();
+            $('#carrito').dialog("close");
+        },
+        error: function (respuesta) {
+            $( "#dialog" ).dialog({
+                title: "Error",
+                show: {
+                  effect: "blind",
+                  duration: 200
+                },
+                hide: {
+                  effect: "explode",
+                  duration: 200
+                }
+              });
+            $("#dialog").empty();
+            $("#dialog").append(`<p>${respuesta.responseJSON.mensaje}</p>`);
         }
-
     });
 }
 

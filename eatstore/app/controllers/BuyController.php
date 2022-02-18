@@ -22,28 +22,28 @@ class BuyController
                 $idcompra = $c->comprar($compra);
 
                 if(isset($idcompra) && $c->detallarCompra($detalle_compra, $idcompra)) {
-                    header_remove('Set-Cookie');
-                    header('Content-Type: application/json', 'HTTP/1.1 200 OK');
+                    header('Content-Type: application/json');
+                    header('HTTP/1.1 200 OK');
                     echo json_encode(array('mensaje' => 'Compra realizada con exito'));
                     $c->exit();
                     exit;
                 } else {
-                    header_remove('Set-Cookie');
-                    header('Content-Type: application/json', 'HTTP/1.1 500 INTERNAL SERVER ERROR');
+                    header('Content-Type: application/json');
+                    header('HTTP/1.1 500 INTERNAL SERVER ERROR');
                     echo json_encode(array('mensaje' => 'No se ha podido finalizar la compra'));
                     $c->exit();
                     exit;
                 }
 
             } else {
-                header_remove('Set-Cookie');
-                header('Content-Type: application/json', 'HTTP/1.1 400 BAD REQUEST');
+                header('Content-Type: application/json');
+                header('HTTP/1.1 400 BAD REQUEST');
                 echo json_encode(array('mensaje' => 'Carrito Vacio'));
                 exit;
             }
         } else {
-            header_remove('Set-Cookie');
-            header('Content-Type: application/json', 'HTTP/1.1 400 BAD REQUEST');
+            header('Content-Type: application/json');
+            header('HTTP/1.1 400 BAD REQUEST');
             echo json_encode(array('mensaje' => 'inicia sesion antes de finalizar la compra'));
             exit;
         }
