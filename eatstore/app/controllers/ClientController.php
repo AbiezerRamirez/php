@@ -3,6 +3,7 @@ require_once('funciones.php');
 // include_once('Regex.php');
 class ClientController
 {
+    // metodo para registrar un nuevo usuario
     public static function register()
     {
         $data = array(
@@ -13,11 +14,11 @@ class ClientController
             'contras' => password_hash($_POST['pass'], PASSWORD_DEFAULT)
         );
         $message = 'error=2';
-
+// comprueba que los datos no esten vaios
         if (!trimArray($data)) {
-            if (preg_match(Regex::$dniPattern, $data['dni'])) {
+            if (preg_match(Regex::$dniPattern, $data['dni'])) { // regex para comprobar el dni
                 echo 'funciona';
-                if (preg_match(Regex::$emailPattern, $data['correoe'])) {
+                if (preg_match(Regex::$emailPattern, $data['correoe'])) { // regex para comprobar el correo
                     $client = new Client($data);
 
                     if (!$client->clientExists('dni', $data['dni'])) {
@@ -38,7 +39,7 @@ class ClientController
         header("location: ../../index.php?page=register&$message");
         exit;
     }
-
+// metodo para actualizar los datos del usuario
     public static function update()
     {
         $dataPost = array(
@@ -52,10 +53,10 @@ class ClientController
             $finalData['contras'] = password_hash($_POST['pass'], PASSWORD_DEFAULT);
         }
         $message = 'error=2';
-
+// comprobacion de que los datos no esten vacios
         if (!trimArray($dataPost)) {
-            if (preg_match(Regex::$dniPattern, $dataPost['dni'])) {
-                if (preg_match(Regex::$emailPattern, $dataPost['correoe'])) {
+            if (preg_match(Regex::$dniPattern, $dataPost['dni'])) { // regex para comprobar el dni
+                if (preg_match(Regex::$emailPattern, $dataPost['correoe'])) { // regex para comprobar el correo
                     session_start();
                     foreach ($_SESSION['client'] as $key => $value) {
                         if ($key != 'id') {
@@ -88,7 +89,7 @@ class ClientController
         header("location: ../../index.php?page=updateProfile&$message");
         exit;
     }
-
+// metodo para iniciar sesion
     public static function login()
     {
         $data = array(
@@ -96,10 +97,10 @@ class ClientController
             'password' => $_POST['pass']
         );
         $message = 'error=2';
-
+// compruba losdatos recibidos
         if (!trimArray($data)) {
             $client = new Client($data);
-
+// en caso de que login retorne true inicia sesion y almacena los datos del cliente dentro de la sesion
             if ($client->login()) {
                 session_start();
                 $_SESSION['client'] = $client->getData();

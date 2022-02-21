@@ -1,5 +1,6 @@
 <?php
     // require '../../vendor/autoload.php';
+    // autocarga de clases
     spl_autoload_register(function ($clase) {
         $pathContorllers = $clase . '.php';
         $pathBD = '../db/' . $clase . '.php';
@@ -12,7 +13,7 @@
             require_once $pathModels;
         }
     });
-
+// mapa de acciones validas dentro del sitio
 $actions = array(
     'register' => array(
         'controller' => 'ClientController',
@@ -35,14 +36,14 @@ $actions = array(
         'action' => 'buy'
     )
 );
-
+// definicion de acction
 if (isset($_REQUEST['action']) && isset($actions[$_REQUEST['action']])) {
         $action = $_REQUEST['action'];
 } else {
     header('location: ../../index.php?page=404');
     exit;
 }
-
+// ejecucion de accion
 $controller = $actions[$action];
 
 if (method_exists($controller['controller'], $controller['action'])) {

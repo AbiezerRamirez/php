@@ -6,7 +6,7 @@ class BuyController
     public static function buy()
     {
         session_start();
-
+// comprueba si el cliente ha iniciado sesion
         if (isset($_SESSION['client'])) {
             $compra = array(
                 'idcliente' => $_SESSION['client']['id'],
@@ -15,13 +15,13 @@ class BuyController
                 'formapago' => $_POST['formapago'],
                 'total' => $_POST['total']
             );
-
+// comprueba si el carrito de compra esta vacio
             if (!trimArray($compra) && isset($_POST['detalle'])) {
                 $detalle_compra = $_POST['detalle'];
                 $c = new Compra();
                 
                 $idcompra = $c->comprar($compra);
-
+// agrega la compra y el detalle de la compra y si todo va bien responde con un 200 ok
                 if(isset($idcompra) && $c->detallarCompra($detalle_compra, $idcompra)) {
                     $_SESSION['facturas'] = $c->getCompras($_SESSION['client']['id']);
                     header('Content-Type: application/json');

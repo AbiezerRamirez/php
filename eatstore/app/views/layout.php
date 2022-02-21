@@ -24,7 +24,7 @@
 
     <nav class="navegacion">
         <a class="navegacion__enlace navegacion__enlace--activo" href="index.php">Tienda</a>
-        <a class="navegacion__enlace" href="nosotros.html">Nosotros</a>
+        <a class="navegacion__enlace" href="index.php?page=nosotros">Nosotros</a>
         <?php
         if (isset($_SESSION['client'])) {
             echo '<a class="navegacion__enlace" href="?page=profile"> ' . $_SESSION['client']['nombre'] . ' </a>';

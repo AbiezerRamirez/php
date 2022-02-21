@@ -5,6 +5,7 @@ class PlatosAPI
     public function API()
     {
         header('Content-Type: application/JSON');
+        // variables para avaluer el tipo de peticion y lo enviado por url
         $method = $_SERVER['REQUEST_METHOD'];
         $url = explode('/', $_SERVER['REQUEST_URI']);
         $lastValue = explode('?', $url[sizeof($url) - 1]);
@@ -45,6 +46,7 @@ class PlatosAPI
         }
     }
 
+    // funcion que en caso de motodo get comprueba las diferentes opciones y llama a los diferentes metodos que generaran las respuestas
     public function getPlatos($id = 0)
     {
         $pdb = new PlatosDB();
@@ -75,7 +77,7 @@ class PlatosAPI
 
         $pdb->exit();
     }
-
+// Funcion que para metodos post redirigira a un tipo de insercion u otro
     public function postPlatos($id = 0)
     {
         $pdb = new PlatosDB();
@@ -118,7 +120,7 @@ class PlatosAPI
 
         $pdb->exit();
     }
-
+// funcion para actualizar un plato a partir de su id
     public function updatePlato($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -149,7 +151,7 @@ class PlatosAPI
 
         $pdb->exit();
     }
-
+// funcion para eliminar un plato a partir de su id
     public function deletePlato($id)
     {
         $pdb = new PlatosDB();
@@ -163,7 +165,7 @@ class PlatosAPI
         
         $pdb->exit();
     }
-
+// funcion que retorna la respuesta y el estado de la respuesta de la api
     protected function sendOutput($data, $httpHeaders = array())
     {
         header_remove('Set-Cookie');
@@ -177,7 +179,7 @@ class PlatosAPI
         echo $data;
         exit;
     }
-
+// funcion para enviar una respuesta generica si todo va bien o enviar una respuesta personalizada
     protected function responseMessage($responseData = '', $message = '', $estado = '', $strErrorHeader = '')
     {
         if (!$message) {
@@ -192,7 +194,7 @@ class PlatosAPI
             );
         }
     }
-
+// funcion para escoger el tipo de respuesta sin escribir toda la cabecera
     protected function response($data = [], $state = 0, $message = '')
     {
         switch ($state) {

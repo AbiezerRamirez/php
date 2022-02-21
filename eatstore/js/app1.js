@@ -17,7 +17,9 @@ function dibujarProductos(productos) {
 
         $(".grid").append(`
         <div class="producto">
-            <img class="producto__imagen" src="img/${producto.foto}" alt="imagen comida">
+            <a href="index.php?page=plato&id=${producto.idplato}">
+                <img class="producto__imagen" src="img/${producto.foto}" alt="imagen comida">
+            </a>
             <div class="producto__informacion">
                 <p class="producto__nombre">${producto.nombre}</p>
                 <p class="producto__precio">${producto.precio}€</p>
@@ -60,7 +62,7 @@ function anadirProducto(e) {
         nombre: $(this).parents(".producto").find(".producto__nombre").text(),
         precio: $(this).parents(".producto").find(".producto__precio").text(),
         id: $(this).parents(".producto").find(".producto__id").text(),
-        imagen: $(this).parents(".producto").children("img").attr("src"),
+        imagen: $(this).parents(".producto").find("img").attr("src"),
         cantidad: 1
     }
 
@@ -176,7 +178,7 @@ function finalizarPedido() {
     });
 
     if ($('#descuento').prop('checked')) {
-        descuento = (total * 0.1)
+        descuento = (total * 0.1);
         total -= descuento;
     }
 
@@ -192,34 +194,34 @@ function finalizarPedido() {
         url: "app/controllers/BackController.php?action=buy",
         data: data,
         success: function (respuesta) {
-            $( "#dialog" ).dialog({
+            $("#dialog").dialog({
                 title: "Compra Finalizada",
                 show: {
-                  effect: "blind",
-                  duration: 200
+                    effect: "blind",
+                    duration: 200
                 },
                 hide: {
-                  effect: "explode",
-                  duration: 200
+                    effect: "explode",
+                    duration: 200
                 }
-              });
+            });
             $("#dialog").empty();
             $("#dialog").append(`<p>${respuesta.mensaje}</p>`);
             vaciar();
             $('#carrito').dialog("close");
         },
         error: function (respuesta) {
-            $( "#dialog" ).dialog({
+            $("#dialog").dialog({
                 title: "Error",
                 show: {
-                  effect: "blind",
-                  duration: 200
+                    effect: "blind",
+                    duration: 200
                 },
                 hide: {
-                  effect: "explode",
-                  duration: 200
+                    effect: "explode",
+                    duration: 200
                 }
-              });
+            });
             $("#dialog").empty();
             $("#dialog").append(`<p>${respuesta.responseJSON.mensaje}</p>`);
         }

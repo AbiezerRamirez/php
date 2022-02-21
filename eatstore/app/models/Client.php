@@ -14,7 +14,7 @@ class Client extends Queries
     {
         return $this->data;
     }
-
+// valida si existe un cliente y y su contraseña coincide para dejarlo iniciar sesion
     function login()
     {
         if ($this->clientExists('correoe', $this->data['correoe'])) {
@@ -33,7 +33,7 @@ class Client extends Queries
         }
         return false;
     }
-
+// inserta un nuevo cliente en la base de datos
     function register()
     {
         if (!$this->clientExists('correoe', $this->data['correoe'])) {
@@ -42,7 +42,7 @@ class Client extends Queries
         }
         return false;
     }
-
+// actualiza los datos de un cliente recibiendo el id de dicho cliente como parametro
     function update($id)
     {
         if ($this->clientExists('idcliente', $id)) {
